@@ -5,144 +5,173 @@ date: 2026-08-22
 lang: en
 ---
 
-> From 50 items, 5 important content pieces were selected
+> From 52 items, 7 important content pieces were selected
 
 ---
 
 **Technology News**
-1. [Rust Glancer: A New Rust LSP Aiming for 100x Less RAM](#item-tech-news-1) ⭐️ 8.0/10
-2. [OTel Isn&\#x27;t Going Well: Critique Cites Complexity and Vendor Friction](#item-tech-news-2) ⭐️ 8.0/10
-3. [Munder Difflin: Local Multi-Agent Harness for Deterministic Coding Agent Orchestration](#item-tech-news-3) ⭐️ 7.0/10
+1. [Munder Difflin: Run deterministic office simulations with your coding agents](#item-tech-news-1) ⭐️ 8.0/10
+2. [Rust Glancer: New Rust LSP Claims 100x Less RAM](#item-tech-news-2) ⭐️ 8.0/10
+3. [Why Modern Software Feels Slow and Performance Still Matters](#item-tech-news-3) ⭐️ 8.0/10
+4. [OpenTelemetry Faces Growing Criticism Over SDK Complexity and Design](#item-tech-news-4) ⭐️ 7.0/10
+5. [llm-openrouter 0.7 Adds Responses API and Server-Side Tools](#item-tech-news-5) ⭐️ 6.0/10
+6. [Why Developers Should Stop Making TUIs and Build Native UIs](#item-tech-news-6) ⭐️ 6.0/10
 
 **Financial News**
-1. [Treasury&\#x27;s Doubling of Bond Buybacks Spurs Gold and Bitcoin Rally, Weakens Dollar](#item-finance-news-1) ⭐️ 7.0/10
-2. [Kalshi faces state restrictions as prediction-market oversight heads to court](#item-finance-news-2) ⭐️ 7.0/10
+1. [Supreme Court rejects Trump tariffs; refunds return to companies](#item-finance-news-1) ⭐️ 8.0/10
 
 ---
 
 ## Technology News
 
 <a id="item-tech-news-1"></a>
-### [Rust Glancer: A New Rust LSP Aiming for 100x Less RAM](https://rust-glancer.github.io/blog/hello-world/) ⭐️ 8.0/10
+### [Munder Difflin: Run deterministic office simulations with your coding agents](https://munderdiffl.in/) ⭐️ 8.0/10
 
-Rust Glancer, a new language server protocol \(LSP\) implementation for Rust, was announced via a blog post by matklad, claiming to use 100x less memory than existing solutions like rust-analyzer. The project promises dramatic reductions in RAM usage for Rust development, potentially addressing memory pressure during parallel builds and editor analysis. The announcement has generated substantial community interest, with the author engaging in discussion and clarifying the project&\#x27;s approach to LLM-assisted development. While technical details are limited, the project has drawn attention from developers who find rust-analyzer&\#x27;s memory and CPU consumption problematic. The blog post also describes using LLMs as a tool rather than a brain replacement, which received mixed but generally positive reactions.
+Munder Difflin is a local multi-agent harness that wraps existing coding agents such as Claude Code and Codex into deterministic, token-efficient office-style simulations. The tool gained rapid traction, with its creator reporting 20K+ users within a week and noting that the simulations are deterministic and do not consume tokens, often reducing overall token usage. It is designed to work with almost all coding-agent harnesses, making it broadly applicable to existing AI coding workflows. While the office framing is a joke, the underlying approach to role-based, deterministic orchestration has generated substantial practical interest for multi-agent experimentation.
 
-hackernews · matklad · Aug 21, 19:51 · [Discussion](https://news.ycombinator.com/item?id=49393052)
+hackernews · simonpure · Aug 22, 09:49 · [Discussion](https://news.ycombinator.com/item?id=49398152)
 
-**「Background」** Rust Glancer is a new Language Server Protocol \(LSP\) implementation for Rust, designed as a lower-memory alternative to rust-analyzer, the de facto standard Rust language server. Traditional rust-analyzer keeps project data in memory and dynamically recomputes analysis, which can consume 2–13GB of RAM on real projects. Rust Glancer instead indexes the workspace once and stores results on disk, allowing cheap reuse after editor restarts and targeting under 100MB of RAM for reasonable projects. It supports common LSP features such as goto definition, hover, and completions, though it is not as feature-complete as rust-analyzer.
+**「Background」** Multi-agent AI systems typically coordinate independent agents that communicate asynchronously, which can become nondeterministic and token-intensive. Munder Difflin addresses this by providing a deterministic simulation layer that wraps existing coding agents, allowing users to model an &amp;quot;office&amp;quot; of agents with defined roles and workflows. This approach consumes no additional agent tokens because the simulation itself manages the orchestration logic rather than requiring agents to hold extended conversations.
 
-**「Impact」** The project&\#x27;s promise of 100x lower memory usage, if realized, would address the RAM pressure developers report when rust-analyzer runs alongside builds and tests, but the claim has not yet been independently verified.
+**「Impact」** Developers who already pay for Claude Code or Codex subscriptions can use Munder Difflin to experiment with multi-agent workflows locally without incurring extra token costs, and early adoption suggests strong demand for practical multi-agent orchestration tools. The impact is mostly practical rather than a fundamental research breakthrough, as the harness improves coordination and cost efficiency rather than introducing new agent capabilities.
 
-**「Community Discussion」** Commenters largely welcomed the project, citing real memory pressure from rust-analyzer, and the author fielded questions. Some praised the disciplined use of LLMs, while another criticized rust-analyzer&\#x27;s refusal to use disk caching, and one disagreed with the &\#x27;LLMs are just a tool&\#x27; framing.
+**「Community Discussion」** Commenters are fascinated but divided: one user criticizes it as pipelines and roles rather than true agents, asking for configurable roles and approval gates, while the creator, Chaitanya, emphasizes its deterministic, token-saving design and invites questions. Others praise the office spatial-map analogy for managing concurrent agents and enjoy the management-game framing where the user plays Michael and the agents are overly literal Dwights.
 
-<details><summary>References</summary>
-<ul>
-<li><a href="https://byteiota.com/rust-glancer-new-rust-lsp-that-uses-100x-less-ram/">Rust Glancer: New Rust LSP That Uses 100x Less RAM</a></li>
-<li><a href="https://zeli.app/story/49393052">Rust Glancer: A Rust LSP That Uses 100x Less RAM | Zeli</a></li>
-<li><a href="https://www.machucavalley.tech/blog/rust-glancer-memory-efficient-lsp/">Stop the RAM Bleed: Rust Glancer Promises a Lightweight ...</a></li>
-
-</ul>
-</details>
-
-**Tags**: `#rust`, `#lsp`, `#memory-optimization`, `#developer-tools`, `#ides`
+**Tags**: `#multi-agent`, `#AI agents`, `#coding agents`, `#harness`, `#simulation`
 
 ---
 
 <a id="item-tech-news-2"></a>
-### [OTel Isn&\#x27;t Going Well: Critique Cites Complexity and Vendor Friction](https://matduggan.com/otel-isnt-going-well-and-i-made-a-spreadsheet-about-it/) ⭐️ 8.0/10
+### [Rust Glancer: New Rust LSP Claims 100x Less RAM](https://rust-glancer.github.io/blog/hello-world/) ⭐️ 8.0/10
 
-An opinion piece published at matduggan.com argues that OpenTelemetry&\#x27;s complexity and vendor friction are hurting its usability in production observability stacks. The critique calls out SDK issues, excessive emphasis on automatic instrumentation, Java-centric design, and independent designs for tracing, metrics, and logs. It specifically contends that OTel works for traditional long-running microservices but breaks down with distributed durable-execution-style functions and multi-day retrying steps. Because OTel is a major open observability standard, the article has sparked broad community debate about real-world adoption costs. The piece is an opinion-driven analysis rather than a new technical announcement.
+Rust Glancer is a new Rust language server \(LSP\) announced by matklad, best known as the creator of rust-analyzer. The project claims to use roughly 100 times less RAM than existing Rust LSP implementations, and the announcement describes an LLM-assisted development approach in which the author takes responsibility for the generated code. Community members responded positively to the prospect of lower editor memory use, while also questioning whether such a large improvement reflects poorly on rust-analyzer&\#x27;s original resource usage. The performance claim comes from the announcement and has not been independently verified.
 
-hackernews · hn\_acker · Aug 21, 17:45 · [Discussion](https://news.ycombinator.com/item?id=49391553)
+hackernews · matklad · Aug 21, 19:51 · [Discussion](https://news.ycombinator.com/item?id=49393052)
 
-**「Background」** OpenTelemetry \(OTel\) is a vendor-neutral open source observability framework for instrumenting, generating, collecting, and exporting telemetry data such as traces, metrics, and logs, supported by more than 90 observability vendors. It builds on the earlier OpenTracing and OpenCensus projects to provide a unified set of APIs, libraries, agents, and collector services for cloud native software.
+**「Background」** Rust Glancer, announced on August 21, 2026, is a new language server protocol \(LSP\) implementation for Rust that claims to use roughly 100 times less RAM than existing Rust LSPs. It is developed by Matklad, the creator of rust-analyzer, which is the widely used reference LSP for Rust. Unlike rust-analyzer, which stores information in memory and recomputes it dynamically, Rust Glancer uses frozen workspaces that can be offloaded to the filesystem, aiming to reduce the high memory and CPU usage that rust-analyzer typically incurs during indexing and background analysis.
 
-**「Impact」** For teams building OTel-based observability, the most concrete reported consequence is painful SDK integration and vendor friction, with users describing Axiom SDKs as a nightmare, Graylog logs as second-class, and self-hosted Grafana/SigNoz experiences as unpleasant.
+**「Impact」** One affected Rust developer reported machine stutter when rust-analyzer runs during builds and tests, so a memory-lean Rust LSP could directly relieve that pain if the announced 100x reduction holds in practice.
 
-**「Community discussion」** Commenters broadly agree that OTel is complex and vendors treat it poorly, citing automatic-instrumentation emphasis, stateful/abstracted SDKs, and Graylog&\#x27;s otel\_attributes\_ prefix. One user accepts Axiom&\#x27;s resulting traces but calls the SDKs a nightmare, while another wishes logs, metrics, and traces could be unified and chosen dynamically at runtime.
+**「Community Discussion」** Commenters were generally excited about the project and the author&\#x27;s LLM-assisted workflow, but some argued that a 100x gain mainly highlights how memory-hungry rust-analyzer has become; one critic specifically cited rust-analyzer&\#x27;s refusal to use disk cache. The author, popzxc, joined the thread and offered to answer questions.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://opentelemetry.io/docs/">Documentation - OpenTelemetry</a></li>
-<li><a href="https://opentelemetry.io/">OpenTelemetry</a></li>
+<li><a href="https://energylast.com/technical-information/rust-glancer-rust-lsp-using-100x-less-ram/">Rust Glancer : Rust LSP Using 100 X Less RAM - EnergyLast</a></li>
+<li><a href="https://1023jack.com/general/rust-glancer-rust-lsp-using-100x-less-ram/">Rust Glancer : Rust LSP Using 100 X Less RAM - 1023 Jack</a></li>
+<li><a href="https://rust-glancer.github.io/">Rust LSP that doesn&#x27;t eat memory for breakfast</a></li>
 
 </ul>
 </details>
 
-**Tags**: `#opentelemetry`, `#observability`, `#distributed-tracing`, `#monitoring`, `#sdk`
+**Tags**: `#rust`, `#LSP`, `#developer-tools`, `#performance`, `#memory`
 
 ---
 
 <a id="item-tech-news-3"></a>
-### [Munder Difflin: Local Multi-Agent Harness for Deterministic Coding Agent Orchestration](https://munderdiffl.in/) ⭐️ 7.0/10
+### [Why Modern Software Feels Slow and Performance Still Matters](https://danluu.com/perf-opt/) ⭐️ 8.0/10
 
-Munder Difflin is a local multi-agent harness that wraps existing coding agents such as Claude Code and Codex, enabling users to orchestrate an &quot;office&quot; of clones with deterministic simulations that do not consume tokens. The project has drawn strong Hacker News interest with 152 points, and its creator reports over 20,000 users in its first week, with many saying it reduces token consumption. It supports almost all harnesses and coding agents, and uses an office metaphor as a spatial map for coordinating simultaneous agent activity. The approach matters because it promises more reproducible, lower-cost multi-agent coding workflows without requiring a new underlying agent model.
+Dan Luu argues in his essay &\#x27;There&\#x27;s no reason for software to be slow anymore&\#x27; that modern applications are unnecessarily slow and that performance optimization still matters despite today&\#x27;s hardware. The post draws on concrete optimization insights and became a heavily discussed Hacker News item with 398 comments, reflecting broad developer interest. It contends that much desktop and web software wastes available performance through poor tooling choices and design, rather than fundamental technical limits. The surrounding discussion points to Electron apps, network round-trips, and verbose LLM-generated code as perceived culprits. The takeaway is that performance remains a central engineering consideration, not an optional polish.
 
-hackernews · simonpure · Aug 22, 09:49 · [Discussion](https://news.ycombinator.com/item?id=49398152)
+hackernews · Jach · Aug 22, 01:06 · [Discussion](https://news.ycombinator.com/item?id=49395628)
 
-**「Background」** Munder Difflin is a local multi-agent harness that orchestrates existing coding agents, including Claude Code, Antigravity \(Gemini\), and OpenAI Codex, by spawning them in a PTY and managing them as persistent workers. Its core idea is to let users run a simulated “office” of cloned agents, with decisions routed through you or an orchestrating agent, while deterministic simulations avoid consuming tokens from the underlying agent subscriptions. The tool is open-source and has gained rapid adoption, with over 20,000 users in its first week.
+**「Background」** Dan Luu&\#x27;s essay argues that much modern software is unnecessarily slow and that performance optimization is often neglected due to perceived cost, despite being feasible. The article cites concrete examples, such as a regex engine where a native ahead-of-time \(AOT\) compiled version performed well on longer searches, suggesting that performance can be improved without sacrificing correctness. The surrounding discussion reflects common developer frustrations with slow Electron apps, network latency, and heavier operating systems, which help explain why the topic resonates.
 
-**「Impact」** Developers already using Claude Code or Codex can run deterministic, token-efficient multi-agent simulations, potentially making complex coding workflows cheaper and more reproducible.
+**「Impact」** For software developers and users, the discussion underscores growing frustration with memory-hungry desktop apps and network-bound UIs, and reasserts performance optimization as a visible quality criterion.
 
-**「Community Discussion」** Commenters were enthusiastic about the office metaphor and reported token savings, while one user criticized the design as pipelines and roles rather than truly configurable agents and asked for role-defined, dynamically spawned agents; the creator responded and invited questions.
+**「Community Discussion」** Commenters broadly agree that software feels slower than necessary, citing Electron-based apps like Slack and VS Code, latency from web requests especially outside the US, and UI delays such as Windows 11&\#x27;s context menu. A counterpoint notes that LLM-generated code tends to be verbose and slower, suggesting the problem may worsen with AI-assisted development.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://github.com/osmaza17/munder-difflin">osmaza17/ munder - difflin : Local multi - agent harness for Claude ...</a></li>
-<li><a href="https://www.producthunt.com/products/munder-difflin">Munder Difflin : Make clones with Claude Code and Codex to do your...</a></li>
+<li><a href="https://danluu.com/perf-opt/">There &#x27; s no reason for software to be slow anymore</a></li>
+<li><a href="https://news.ycombinator.com/item?id=49395628">There &#x27; s no reason for software to be slow anymore | Hacker News</a></li>
 
 </ul>
 </details>
 
-**Tags**: `#multi-agent`, `#AI agents`, `#orchestration`, `#developer tools`, `#token efficiency`
+**Tags**: `#performance`, `#software engineering`, `#optimization`, `#systems`, `#programming`
+
+---
+
+<a id="item-tech-news-4"></a>
+### [OpenTelemetry Faces Growing Criticism Over SDK Complexity and Design](https://matduggan.com/otel-isnt-going-well-and-i-made-a-spreadsheet-about-it/) ⭐️ 7.0/10
+
+The article argues that OpenTelemetry is struggling because it standardized before its design was settled, leading to overly complex SDKs and a fragmented architecture where traces, metrics, and logs are designed independently. The Hacker News discussion supports this with concrete complaints: SDKs are described as a nightmare, too much emphasis is placed on automatic instrumentation, and Java-style abstractions make everything stateful and opaque. Commenters also report that OTel distributed tracing breaks down for durable execution engines, Cloudflare Workflows, and functions that span hours, days, or weeks with many retries, and that long-running and retrying steps are not handled well. Several users note that the self-hosted observability experience is poor, with Grafana and SigNoz both unwieldy, while another says vendors make OTel a second-class citizen, citing Graylog&\#x27;s awkward otel\_attributes\_ prefix on log attributes. Overall, the piece and comments present a critical view of OTel&\#x27;s current maturity and usability.
+
+hackernews · hn\_acker · Aug 21, 17:45 · [Discussion](https://news.ycombinator.com/item?id=49391553)
+
+**「Background」** OpenTelemetry \(OTel\) is a vendor-neutral open source observability framework for instrumenting, generating, collecting, and exporting telemetry data such as traces, metrics, and logs. It separates a public API from SDKs, which provide working implementations and handle configuration and export. The article under discussion argues that OTel&\#x27;s premature standardization, SDK complexity, and separate design of the three telemetry pillars have made adoption and use difficult in practice.
+
+**「Impact」** For developers adopting OpenTelemetry, the practical consequence is that distributed tracing for durable execution and long-running workflows is unreliable, and integration with existing log systems can be awkward, undermining OTel&\#x27;s goal of being a drop-in replacement for proprietary agents.
+
+**「Community Discussion」** Commenters largely agree that OTel&\#x27;s design is premature and that SDK usability is a major pain point. Some propose more dynamic approaches, such as annotating code once and letting the runtime decide whether to emit a metric, log, or trace, while others express broader dissatisfaction with the entire self-hosted observability ecosystem.
+
+<details><summary>References</summary>
+<ul>
+<li><a href="https://opentelemetry.io/docs/languages/php/sdk/">SDK | OpenTelemetry</a></li>
+<li><a href="https://opentelemetry.io/docs/">Documentation | OpenTelemetry</a></li>
+<li><a href="https://www.elastic.co/what-is/opentelemetry">What is OpenTelemetry ? | Elastic</a></li>
+
+</ul>
+</details>
+
+**Tags**: `#OpenTelemetry`, `#Observability`, `#Distributed Tracing`, `#SDK Design`, `#Monitoring`
+
+---
+
+<a id="item-tech-news-5"></a>
+### [llm-openrouter 0.7 Adds Responses API and Server-Side Tools](https://simonwillison.net/2026/Aug/21/llm-openrouter/) ⭐️ 6.0/10
+
+Simon Willison released llm-openrouter 0.7, an update to the LLM CLI plugin for OpenRouter. The plugin now works with LLM 0.32 and can display reasoning traces for models available through OpenRouter. Models in the plugin use OpenRouter&\#x27;s implementation of the Responses API. Three new server-side tools are included: Shell, WebFetch, and WebSearch, enabled with options such as -T WebSearch.
+
+rss · Simon Willison · Aug 21, 16:58
+
+**「Background」** LLM is a command-line tool for running large language models from many providers, and llm-openrouter is a plugin that connects it to OpenRouter, a service offering access to numerous models through a unified API. LLM 0.32 introduced support for showing reasoning traces, and OpenRouter&\#x27;s Responses API supports server-side execution of tools rather than requiring every tool call to be handled locally.
+
+**「Impact」** Users of llm-openrouter can now use server-side Shell, WebFetch, and WebSearch tools and see reasoning traces from OpenRouter models while remaining compatible with LLM 0.32.
+
+**Tags**: `#llm`, `#openrouter`, `#plugin`, `#release`, `#ai-tools`
+
+---
+
+<a id="item-tech-news-6"></a>
+### [Why Developers Should Stop Making TUIs and Build Native UIs](https://simonwillison.net/2026/Aug/21/stop-making-tuis/) ⭐️ 6.0/10
+
+Thomas Ptacek argues that developers should stop making TUIs \(text-based terminal interfaces\) for small personal tools and instead build real native user interfaces, because coding agents have reduced the cost of getting a usable GUI up and running to almost nothing. Simon Willison endorses the argument, noting that his vibe-coded SwiftUI macOS menu-bar apps for bandwidth and GPU monitoring, created in March, are still in daily use. Willison admits he has not yet converted all of his projects to real UIs but says he is running out of excuses. He quotes Ptacek: &quot;Go build a native UI. It&\#x27;ll probably change the way you think.&quot;
+
+rss · Simon Willison · Aug 21, 16:07
+
+**「Background」** Command-line tools and terminal-based TUIs have long been the default for quick personal utilities because hand-writing a GUI was expensive and time-consuming. AI coding agents and &quot;vibe coding&quot; have changed that economics by generating working native interface code from natural-language prompts, making GUI apps a cheap alternative for developers who previously would have reached for a throwaway CLI.
+
+**「Impact」** The practical takeaway for developers using coding assistants is that the effort threshold for building a small native app has dropped enough that it can become the default choice over a throwaway CLI or TUI, as Willison demonstrated with his two macOS menu-bar apps.
+
+**Tags**: `#native-ui`, `#coding-agents`, `#development-tools`, `#opinion`, `#software-engineering`
 
 ---
 
 ## Financial News
 
 <a id="item-finance-news-1"></a>
-### [Treasury&\#x27;s Doubling of Bond Buybacks Spurs Gold and Bitcoin Rally, Weakens Dollar](https://www.marketwatch.com/story/why-an-announcement-from-the-treasury-sparked-a-rally-in-gold-and-bitcoin-this-week-d9d5972b?mod=mw_rss_topstories) ⭐️ 7.0/10
+### [Supreme Court rejects Trump tariffs; refunds return to companies](https://www.marketwatch.com/story/a-massive-corporate-welfare-program-is-underway-and-consumers-want-a-bigger-cut-of-it-0ff06d67?mod=mw_rss_topstories) ⭐️ 8.0/10
 
-The Treasury Department said it plans to double its bond buybacks, which MarketWatch reports spurred a rally in gold and bitcoin and weakened the U.S. dollar.
+President Donald Trump’s tariffs were struck down by the Supreme Court, and tariff refunds have been flowing back to companies, according to a MarketWatch report. The report did not disclose refund amounts or how many companies received payments.
 
-rss · MarketWatch Top Stories · Aug 22, 13:00
+rss · MarketWatch Top Stories · Aug 22, 11:00
 
-**「Background」** The Treasury Department announced it would double its planned bond buybacks, meaning it would repurchase more of its own outstanding long-dated U.S. debt. Such buybacks add demand for Treasurys, which tends to push yields down and the dollar weaker; that makes non-yielding assets like gold and bitcoin comparatively more attractive.
+**「Background」** On February 20, 2026, the Supreme Court ruled that President Trump had overstepped his authority by using the International Emergency Economic Powers Act — a 1977 law meant for national security threats — to impose the tariffs. That ruling made the duties illegal, and the U.S. has since paid out about $100 billion in refunds to companies that had paid them, with more refund disputes expected to move through lower courts.
+
+**「Impact」** The $166 billion in refunds is going first to more than 330,000 U.S. businesses that paid duties on 53 million shipments, with most payments arriving within 60-90 days, meaning households are unlikely to see direct relief and the economic damage from the tariff turmoil cannot be refunded.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://cryptobriefing.com/treasury-buyback-rally-gold-bitcoin/">Treasury announcement sparks rally in gold and Bitcoin</a></li>
-<li><a href="https://www.kucoin.com/news/flash/us-treasury-bond-buybacks-drive-dollar-down-gold-and-bitcoin-up">US Treasury Bond Buybacks Drive Dollar Down, Gold and Bitcoin Up | KuCoin</a></li>
+<li><a href="https://www.theguardian.com/us-news/2026/feb/21/retailers-trump-tariffs-refunds">US businesses clamor for refunds after supreme court strikes down ...</a></li>
+<li><a href="https://www.npr.org/2026/05/03/nx-s1-5805045/tariff-refunds-small-business">This quest for tariff refunds shows why billions may never get... : NPR</a></li>
+<li><a href="https://www.businesstoday.in/world/us/story/us-pays-out-100-billion-in-tariff-refunds-after-supreme-court-struck-down-trumps-ieepa-duties-547521-2026-08-06">US pays out $100 billion in tariff refunds after Supreme Court struck ...</a></li>
+<li><a href="https://economictimes.indiatimes.com/news/international/us/166b-tariff-refunds-released-when-are-americans-getting-their-tariff-refunds-and-will-they-actually-get-them/articleshow/130416751.cms">Tariff refunds 2026: $166 billion payout begins: $166B Tariff refunds ...</a></li>
+<li><a href="https://taxfoundation.org/blog/tariff-refunds-wiped-out-tariff-revenue-since-may/">Tariff Refunds Have Wiped Out Tariff Revenue Since May</a></li>
 
 </ul>
 </details>
 
-**Tags**: `#Treasury`, `#bond buybacks`, `#gold`, `#bitcoin`, `#dollar`
-
----
-
-<a id="item-finance-news-2"></a>
-### [Kalshi faces state restrictions as prediction-market oversight heads to court](https://www.coindesk.com/news-analysis/2026/08/21/kalshi-off-limits-in-multiple-states-as-prediction-markets-cftc-team-up-for-battle) ⭐️ 7.0/10
-
-According to a report, Kalshi is off-limits in multiple U.S. states, and prediction markets and the U.S. Commodity Futures Trading Commission \(CFTC\) are entering a legal battle over regulatory authority.
-
-rss · CoinDesk · Aug 22, 13:30
-
-**「Background」** Kalshi is a federally regulated prediction market that lets people trade on event outcomes. Earlier in 2026, it and the CFTC sued state regulators in Minnesota and Rhode Island that had blocked its products, arguing states cannot ban markets the federal agency has already approved.
-
-**「Impact」** Traders in the affected U.S. states may lose access to Kalshi&\#x27;s prediction markets \(or be limited to select non-sports markets\) while the legal fight over state and federal oversight continues.
-
-<details><summary>References</summary>
-<ul>
-<li><a href="https://sccgmanagement.com/sccg-articles/2026/06/02/kalshi-files-lawsuit-against-minnesota-ban-prediction/">Are Prediction Markets Legal By State As Kalshi Sues Minnesota</a></li>
-<li><a href="https://www.theatlantic.com/ideas/archive/2025/10/sports-betting-kalshi-cftc/684689/">The Company Making a Mockery of State Gambling Bans - The Atlantic</a></li>
-<li><a href="https://cointelegraph.com/news/kalshi-cftc-lawsuit-minnesota-prediction-markets-ban">Kalshi Sues Minnesota, CFTC Files Against Rhode Island as...</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Kalshi">Kalshi - Wikipedia</a></li>
-<li><a href="https://www.cbssports.com/prediction/news/prediction-market-legal-states/">Are sports prediction markets legal? Status of Kalshi and Polymarket in all 50 states - CBS Sports</a></li>
-
-</ul>
-</details>
-
-**Tags**: `#prediction markets`, `#Kalshi`, `#CFTC`, `#state regulation`, `#crypto policy`
+**Tags**: `#tariffs`, `#Supreme Court`, `#trade policy`, `#refunds`, `#corporate welfare`
 
 ---
