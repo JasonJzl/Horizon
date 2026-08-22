@@ -23,7 +23,7 @@
         "topic_dedup": true
       },
       "tech-blog": {
-        "threshold": 4.0,
+        "threshold": 5.0,
         "topic_dedup": false
       },
       "finance-news": {
@@ -32,55 +32,37 @@
       }
     }
   },
+  "display": {
+    "icon_style": "emoji"
+  },
   "sources": {
-    "github": [
-      {
-        "type": "user_events",
-        "username": "karpathy",
-        "enabled": true,
-        "profile": "tech-news"
-      },
-      {
-        "type": "repo_releases",
-        "owner": "vllm-project",
-        "repo": "vllm",
-        "enabled": true,
-        "profile": "tech-news"
-      },
-      {
-        "type": "repo_releases",
-        "owner": "sgl-project",
-        "repo": "sglang",
-        "enabled": true,
-        "profile": "tech-news"
-      },
-      {
-        "type": "repo_releases",
-        "owner": "triton-lang",
-        "repo": "triton",
-        "enabled": true,
-        "profile": "tech-news"
-      }
-    ],
     "hackernews": {
       "enabled": true,
-      "fetch_top_stories": 30,
+      "fetch_top_stories": 20,
       "min_score": 150,
       "profile": "tech-news"
     },
     "rss": [
       {
-        "name": "Simon Willison",
-        "url": "https://simonwillison.net/atom/everything/",
+        "name": "Quantocracy",
+        "url": "https://quantocracy.com/feed/",
         "enabled": true,
-        "category": "ai-tools",
-        "profile": "tech-news"
+        "category": "quant",
+        "profile": "tech-blog",
+        "content_extractor": "trafilatura"
       },
       {
-        "name": "vLLM Blog",
-        "url": "https://vllm.ai/blog/rss.xml",
+        "name": "arXiv q-fin (Quantitative Finance)",
+        "url": "https://rss.arxiv.org/rss/q-fin",
         "enabled": true,
-        "category": "llm-inference",
+        "category": "quant-research",
+        "profile": "tech-blog"
+      },
+      {
+        "name": "Alpha Architect",
+        "url": "https://alphaarchitect.com/feed/",
+        "enabled": true,
+        "category": "quant",
         "profile": "tech-blog",
         "content_extractor": "trafilatura"
       },
@@ -93,30 +75,72 @@
         "content_extractor": "trafilatura"
       },
       {
+        "name": "Federal Reserve Press Releases",
+        "url": "https://www.federalreserve.gov/feeds/press_all.xml",
+        "enabled": true,
+        "category": "macro",
+        "profile": "finance-news"
+      },
+      {
+        "name": "MarketWatch Top Stories",
+        "url": "https://feeds.content.dowjones.io/public/rss/mw_topstories",
+        "enabled": true,
+        "category": "equities",
+        "profile": "finance-news",
+        "content_extractor": "trafilatura"
+      },
+      {
+        "name": "CoinDesk",
+        "url": "https://www.coindesk.com/arc/outboundfeeds/rss/",
+        "enabled": true,
+        "category": "crypto",
+        "profile": "finance-news",
+        "content_extractor": "trafilatura"
+      },
+      {
+        "name": "Cointelegraph",
+        "url": "https://cointelegraph.com/rss",
+        "enabled": true,
+        "category": "crypto",
+        "profile": "finance-news",
+        "content_extractor": "trafilatura"
+      },
+      {
+        "name": "Simon Willison",
+        "url": "https://simonwillison.net/atom/everything/",
+        "enabled": true,
+        "category": "ai-tools",
+        "profile": "tech-news"
+      },
+      {
         "name": "GitHub Trending - Daily",
         "url": "https://mshibanami.github.io/GitHubTrendingRSS/daily/all.xml",
         "enabled": true,
         "category": "github-trending",
-        "profile": "tech-news"
-      },
-      {
-        "name": "Semianalysis",
-        "url": "https://newsletter.semianalysis.com/feed",
-        "enabled": true,
-        "category": "semiconductors",
-        "profile": "tech-news"
-      },
-      {
-        "name": "LWN.net",
-        "url": "https://lwn.net/headlines/full_text?key=${LWN_KEY}",
-        "enabled": true,
-        "category": "linux-kernel",
         "profile": "tech-news"
       }
     ],
     "reddit": {
       "enabled": true,
       "subreddits": [
+        {
+          "subreddit": "algotrading",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 15,
+          "min_score": 30,
+          "profile": "tech-blog"
+        },
+        {
+          "subreddit": "quant",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 10,
+          "min_score": 20,
+          "profile": "tech-blog"
+        },
         {
           "subreddit": "MachineLearning",
           "enabled": true,
@@ -134,19 +158,101 @@
           "fetch_limit": 10,
           "min_score": 60,
           "profile": "tech-news"
+        },
+        {
+          "subreddit": "CryptoCurrency",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 10,
+          "min_score": 500,
+          "profile": "finance-news"
         }
       ],
       "users": [],
-      "fetch_comments": 10
+      "fetch_comments": 8
+    },
+    "github": [
+      {
+        "type": "repo_releases",
+        "owner": "microsoft",
+        "repo": "qlib",
+        "enabled": true,
+        "category": "quant",
+        "profile": "tech-news"
+      },
+      {
+        "type": "repo_releases",
+        "owner": "nautechsystems",
+        "repo": "nautilus_trader",
+        "enabled": true,
+        "category": "quant",
+        "profile": "tech-news"
+      },
+      {
+        "type": "repo_releases",
+        "owner": "OpenBB-finance",
+        "repo": "OpenBB",
+        "enabled": true,
+        "category": "quant",
+        "profile": "tech-news"
+      },
+      {
+        "type": "repo_releases",
+        "owner": "ranaroussi",
+        "repo": "yfinance",
+        "enabled": true,
+        "category": "quant",
+        "profile": "tech-news"
+      },
+      {
+        "type": "repo_releases",
+        "owner": "freqtrade",
+        "repo": "freqtrade",
+        "enabled": true,
+        "category": "quant",
+        "profile": "tech-news"
+      },
+      {
+        "type": "repo_releases",
+        "owner": "anthropics",
+        "repo": "claude-code",
+        "enabled": true,
+        "category": "ai-tools",
+        "profile": "tech-news"
+      }
+    ],
+    "twitter": {
+      "enabled": false,
+      "users": [],
+      "fetch_limit": 10,
+      "profile": "tech-news"
     },
     "telegram": {
-      "enabled": true,
-      "channels": [
+      "enabled": false,
+      "channels": []
+    },
+    "openbb": {
+      "enabled": false,
+      "fetch_filings": false,
+      "filings_provider": "sec",
+      "watchlists": [
         {
-          "channel": "zaihuapd",
+          "name": "megacaps",
           "enabled": true,
+          "provider": "yfinance",
           "fetch_limit": 20,
-          "profile": ["tech-news", "finance-news"]
+          "category": "equities",
+          "symbols": [
+            "AAPL",
+            "MSFT",
+            "NVDA",
+            "GOOGL",
+            "AMZN",
+            "META",
+            "TSLA"
+          ],
+          "profile": "finance-news"
         }
       ]
     }
@@ -155,51 +261,50 @@
     "time_window_hours": 24
   },
   "digest": {
-    "max_items": null,
+    "max_items": 20,
     "profile_order": [
       "tech-news",
       "tech-blog",
       "finance-news"
     ],
-    "category_groups": {},
-    "default_group": "other",
-    "default_group_limit": null
-  },
-  "webhook": {
-    "enabled": true,
-    "url_env": "HORIZON_WEBHOOK_URL",
-    "delivery": "summary_and_items",
-    "overview_position": "last",
-    "platform": "feishu",
-    "layout": "collapsible",
-    "fallback_layout": "markdown",
-    "languages": [
-      "zh"
-    ],
-    "request_body": {
-      "msg_type": "interactive",
-      "card": {
-        "schema": "2.0",
-        "config": {
-          "wide_screen_mode": true
-        },
-        "header": {
-          "title": {
-            "tag": "plain_text",
-            "content": "#{message_title}"
-          },
-          "template": "blue"
-        },
-        "body": {
-          "elements": [
-            {
-              "tag": "markdown",
-              "content": "#{summary}"
-            }
-          ]
-        }
+    "category_groups": {
+      "quant": {
+        "limit": 6,
+        "categories": [
+          "quant",
+          "quant-research"
+        ]
+      },
+      "finance": {
+        "limit": 5,
+        "categories": [
+          "finance",
+          "macro",
+          "equities"
+        ]
+      },
+      "crypto": {
+        "limit": 3,
+        "categories": [
+          "crypto"
+        ]
+      },
+      "ai": {
+        "limit": 6,
+        "categories": [
+          "ai-tools",
+          "github-trending"
+        ]
       }
     },
-    "headers": ""
+    "default_group": "other",
+    "default_group_limit": 3
+  },
+  "webhook": {
+    "enabled": false,
+    "url_env": "HORIZON_WEBHOOK_URL",
+    "delivery": "summary",
+    "platform": "generic",
+    "layout": "markdown"
   }
 }
