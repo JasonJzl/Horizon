@@ -19,15 +19,15 @@
     "default_profile": "tech-news",
     "profile_settings": {
       "tech-news": {
-        "threshold": 7.0,
+        "threshold": 6,
         "topic_dedup": true
       },
       "tech-blog": {
-        "threshold": 5.0,
+        "threshold": 4,
         "topic_dedup": false
       },
       "finance-news": {
-        "threshold": 7.0,
+        "threshold": 6.5,
         "topic_dedup": true
       }
     }
@@ -39,13 +39,14 @@
     "hackernews": {
       "enabled": true,
       "fetch_top_stories": 20,
-      "min_score": 150,
-      "profile": "tech-news"
+      "min_score": 100,
+      "profile": "tech-news",
+      "category": "ai-tools"
     },
     "rss": [
       {
-        "name": "Quantocracy",
-        "url": "https://quantocracy.com/feed/",
+        "name": "Abnormal Returns",
+        "url": "https://abnormalreturns.com/feed/",
         "enabled": true,
         "category": "quant",
         "profile": "tech-blog",
@@ -86,24 +87,21 @@
         "url": "https://feeds.content.dowjones.io/public/rss/mw_topstories",
         "enabled": true,
         "category": "equities",
-        "profile": "finance-news",
-        "content_extractor": "trafilatura"
+        "profile": "finance-news"
       },
       {
         "name": "CoinDesk",
         "url": "https://www.coindesk.com/arc/outboundfeeds/rss/",
         "enabled": true,
         "category": "crypto",
-        "profile": "finance-news",
-        "content_extractor": "trafilatura"
+        "profile": "finance-news"
       },
       {
         "name": "Cointelegraph",
         "url": "https://cointelegraph.com/rss",
         "enabled": true,
         "category": "crypto",
-        "profile": "finance-news",
-        "content_extractor": "trafilatura"
+        "profile": "finance-news"
       },
       {
         "name": "Simon Willison",
@@ -130,7 +128,8 @@
           "time_filter": "day",
           "fetch_limit": 15,
           "min_score": 30,
-          "profile": "tech-blog"
+          "profile": "tech-blog",
+          "category": "quant"
         },
         {
           "subreddit": "quant",
@@ -139,7 +138,8 @@
           "time_filter": "day",
           "fetch_limit": 10,
           "min_score": 20,
-          "profile": "tech-blog"
+          "profile": "tech-blog",
+          "category": "quant"
         },
         {
           "subreddit": "MachineLearning",
@@ -148,7 +148,8 @@
           "time_filter": "day",
           "fetch_limit": 10,
           "min_score": 60,
-          "profile": "tech-news"
+          "profile": "tech-news",
+          "category": "ai-tools"
         },
         {
           "subreddit": "LocalLLaMA",
@@ -157,7 +158,8 @@
           "time_filter": "day",
           "fetch_limit": 10,
           "min_score": 60,
-          "profile": "tech-news"
+          "profile": "tech-news",
+          "category": "ai-tools"
         },
         {
           "subreddit": "CryptoCurrency",
@@ -166,7 +168,8 @@
           "time_filter": "day",
           "fetch_limit": 10,
           "min_score": 500,
-          "profile": "finance-news"
+          "profile": "finance-news",
+          "category": "crypto"
         }
       ],
       "users": [],
@@ -298,7 +301,7 @@
       }
     },
     "default_group": "other",
-    "default_group_limit": 3
+    "default_group_limit": 5
   },
   "webhook": {
     "enabled": false,
