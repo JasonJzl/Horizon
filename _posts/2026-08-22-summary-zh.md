@@ -5,167 +5,221 @@ date: 2026-08-22
 lang: zh
 ---
 
-> 从 52 条内容中筛选出 7 条重要资讯。
+> 从 36 条内容中筛选出 9 条重要资讯。
 
 ---
 
 **科技新闻**
-1. [Munder Difflin：运行克隆办公室的本地多智能体协调框架](#item-tech-news-1) ⭐️ 8.0/10
-2. [Rust Glancer：声称内存占用降低 100 倍的 Rust LSP](#item-tech-news-2) ⭐️ 8.0/10
-3. [软件没理由再慢了：Dan Luu 谈性能优化](#item-tech-news-3) ⭐️ 8.0/10
-4. [OpenTelemetry 陷入困境：过早标准化与 SDK 复杂化受批评](#item-tech-news-4) ⭐️ 7.0/10
-5. [llm-openrouter 0.7 发布：兼容 LLM 0.32 并新增服务端工具](#item-tech-news-5) ⭐️ 6.0/10
-6. [停止制作 TUI：用原生界面替代一次性 CLI](#item-tech-news-6) ⭐️ 6.0/10
+1. [本地 LLM 变笨的常见原因](#item-tech-news-1) ⭐️ 7.0/10
+2. [Munder Difflin：本地多智能体编排工具，模拟克隆人办公室](#item-tech-news-2) ⭐️ 7.0/10
+3. [Linus Torvalds 称赞 AI 在内核调试中的帮助](#item-tech-news-3) ⭐️ 7.0/10
+4. [苹果弃用 hdiutil，磁盘映像与 RAM 磁盘工作流堪忧](#item-tech-news-4) ⭐️ 6.0/10
 
 **财经新闻**
-1. [美国最高法院否决特朗普关税后企业开始收到退款](#item-finance-news-1) ⭐️ 8.0/10
+1. [加拿大宣布对美国商品实施对等报复性关税](#item-finance-news-1) ⭐️ 8.0/10
+2. [美国财政部加倍债券回购引发黄金和比特币上涨](#item-finance-news-2) ⭐️ 8.0/10
+3. [Sandbox 遭攻击后暂停 Base 和 BNB 链桥接](#item-finance-news-3) ⭐️ 6.0/10
+4. [预测市场平台 Kalshi 在多个州被禁，CFTC 与州监管机构加强行动](#item-finance-news-4) ⭐️ 6.0/10
+5. [Zcash 大涨 48%突破 800 美元，受 Grayscale 现货 ETF 申请推动](#item-finance-news-5) ⭐️ 6.0/10
 
 ---
 
 ## 科技新闻
 
 <a id="item-tech-news-1"></a>
-### [Munder Difflin：运行克隆办公室的本地多智能体协调框架](https://munderdiffl.in/) ⭐️ 8.0/10
+### [本地 LLM 变笨的常见原因](https://forum.level1techs.com/t/why-your-local-llm-feels-dumber-than-it-is/253917) ⭐️ 7.0/10
 
-Munder Difflin 是一个本地多智能体协调框架，它包装现有 Claude Code、Codex 等编码智能体，以确定性的方式模拟办公室式协作流程。据作者 Chaitanya 在 Hacker News 上介绍，模拟过程是确定性的，且不额外消耗 token；大多数用户称其一星期内吸引了 20K+ 用户，并帮助降低了 token 消耗。该项目引发了社区关于“管道而非智能体”“角色而非智能体”的讨论，也被视为一种将多个智能体协作可视化的创新方式。目前它是一个处于快速采用阶段的新项目，而非根本性技术突破。
+这篇文章探讨了本地运行的大语言模型常在性能上显得“更笨”的原因，重点分析了量化、聊天模板不匹配和运行时配置问题。例如，许多 GGUF 文件在元数据中丢失了正确的聊天模板，运行时静默回退到 ChatML，导致模型对话仍然正常但能力明显下降；采样参数使用界面默认值而非厂商推荐值也会造成类似问题。文章强调，在归咎于量化等级之前，应先检查聊天模板和运行配置。
 
-hackernews · simonpure · 8月22日 09:49 · [社区讨论](https://news.ycombinator.com/item?id=49398152)
+hackernews · felineflock · 8月22日 18:14 · [社区讨论](https://news.ycombinator.com/item?id=49402232)
 
-**「背景」** 多智能体系统通常需要为每个代理编写独立的提示词，并通过文本交换协调任务；而 Munder Difflin 采用“办公室”隐喻，将各个编码智能体安排为不同角色，并以空间地图方式展示其并行活动。这种设计试图让用户以管理者视角观察和指挥一组智能体，而不是直接编排底层模型调用。
+**「背景」** 本地运行的 LLM 通常需要使用量化技术（如 GGUF、GPTQ、AWQ 和 Bitsandbytes）来降低显存占用，但量化会牺牲一定的精度，Q3、Q2 等重度量化模型的质量上限明显受限。除了量化程度，模型使用的聊天模板（chat template）和采样参数也会显著影响输出表现；如果 GGUF 文件缺少模板元数据，运行时可能静默回退到通用模板，导致模型“变笨”。因此，判断本地模型性能时，需要同时考虑量化等级、模板正确性以及采样设置。
 
-**「影响」** 对于已经在使用 Claude Code、Codex 等编码智能体的开发者，Munder Difflin 提供了一种低 token 消耗、确定性高的多智能体协作方式，可能降低复杂任务编排成本。由于项目上线仅一周且处于快速迭代阶段，其长期稳定性和生态兼容性仍需进一步验证。
+**「影响」** 对于使用本地模型的开发者和普通用户，最实际的建议是在怀疑模型能力前先核对 GGUF 的聊天模板元数据和采样默认值，因为配置错误比量化本身更容易造成明显的“变笨”现象。
 
-**「社区讨论」** 社区讨论既包含赞誉也包含批评：joshstrange 认为当前更接近“管道”而非“智能体”，希望系统支持“角色”并可批量生成多个智能体；doginasuit 和 ImageXav 则赞扬“办公室”空间隐喻能有效呈现并行智能体活动，甚至将用户类比为“Michael”、智能体类比为“Dwight”。作者 Chaitanya 在 Hacker News 亲自回应了关于确定性、token 消耗和支持多种编码智能体的问题。
+**「社区讨论」** 社区讨论中，多位用户提供了实际经验：有人对 Qwen3 27B MLX 在 MacBook Pro 上的表现感到惊讶，也有人用 Qwen3 Q4\_K\_M 在 4090 上运行 CTF 挑战并认为效果不错。另一些用户指出，本地模型“变笨”的首要原因通常是聊天模板元数据丢失（例如静默回退到 ChatML），其次是采样参数未按厂商建议设置；还有人因此质疑 Ollama 是否影响推理质量。
 
-**标签**: `#multi-agent`, `#AI agents`, `#coding agents`, `#harness`, `#simulation`
+<details><summary>参考链接</summary>
+<ul>
+<li><a href="https://faughtsthoughts.substack.com/p/the-no-nonsense-guide-to-local-llm">The No Nonsense Guide to Local LLM Quantization</a></li>
+<li><a href="https://runaihome.com/blog/local-llm-quantization-explained/">Local LLM Quantization Explained: GGUF, GPTQ, AWQ, and Bitsandbytes ...</a></li>
+<li><a href="https://www.xda-developers.com/local-llm-settings-most-people-never-touch/">8 local LLM settings most people never touch that fixed my worst AI ...</a></li>
+
+</ul>
+</details>
+
+**标签**: `#local-llm`, `#quantization`, `#chat-template`, `#llm-inference`, `#ollama`
 
 ---
 
 <a id="item-tech-news-2"></a>
-### [Rust Glancer：声称内存占用降低 100 倍的 Rust LSP](https://rust-glancer.github.io/blog/hello-world/) ⭐️ 8.0/10
+### [Munder Difflin：本地多智能体编排工具，模拟克隆人办公室](https://munderdiffl.in/) ⭐️ 7.0/10
 
-Rust Glancer 是一个新的 Rust 语言服务器（LSP），其官方公告声称相比现有方案内存占用降低约 100 倍。该项目由 Hacker News 用户 matklad 提交，公告页同时链接到 matklad.github.io 上的文章；评论中 popzxc 自称项目作者，并表示愿意回答问题。如果该性能数据属实，Rust 开发者在本地同时运行构建、测试和编辑器时，内存与卡顿问题将得到明显缓解。不过公告目前没有提供独立的基准测试或可验证的性能细节，该“100 倍”声称仍待证实。
+Munder Difflin 是一个本地运行的多智能体编排工具，围绕用户现有的编码代理订阅（如 Claude Code 和 Codex）模拟出一个“克隆人办公室”，让多个代理以不同角色协作完成开发任务。该工具声称模拟过程是确定性的、不消耗令牌，而且多数用户报告降低了令牌消耗；其创建者表示上线一周内已吸引超过 2 万用户。这个项目引发了关于“流水线 vs. 代理”以及令牌效率的实质性技术讨论，受到 AI 工程社区的广泛关注。
 
-hackernews · matklad · 8月21日 19:51 · [社区讨论](https://news.ycombinator.com/item?id=49393052)
+hackernews · simonpure · 8月22日 09:49 · [社区讨论](https://news.ycombinator.com/item?id=49398152)
 
-**「背景」** 语言服务器协议（LSP）是让编辑器与编程语言工具通信的标准接口，而 rust-analyzer 是 Rust 生态中最常用的语言服务器，但它会将大量数据保存在内存中，导致内存占用较高。Rust Glancer 是由 rust-analyzer 作者 matklad 于 2026 年 8 月 21 日发布的新 Rust LSP，它声称比现有实现少用约 100 倍内存，核心思路是不把所有内容都存放在内存里，而是使用可以卸载到文件系统的“冻结工作区”（frozen workspaces）。
+**「背景」** 多智能体系统是指多个 AI 代理相互协作以完成复杂任务，而编码代理则是能自主编写或修改代码的 LLM 工具。Munder Difflin 的独特之处在于它并不直接调用模型，而是封装在现有编码代理订阅之上，在本地创建一个由不同“性格”的克隆代理组成的虚拟办公室，并通过确定性模拟来避免额外令牌开销。
 
-**「影响」** 若该性能数字得到验证，Rust 开发者在本地同时运行编辑器、构建和测试时将显著减少因分析器占用内存导致的卡顿；但目前该声称尚未经独立的公开基准验证。
+**「影响」** 对已经订阅 Claude Code、Codex 等编码代理的用户来说，Munder Difflin 提供了一种无需额外模型调用即可协调多个代理的本地方案，并有可能显著降低令牌消耗。其创建者声称大部分用户在两周内都体验到了令牌开销的下降，但该数据来自开发者自述，尚需独立验证。
 
-**「社区讨论」** 社区反应积极但并非一致：有用户称赞项目并描述了现有 rust-analyzer 在并行工作时的内存压力；也有人质疑 100 倍主要说明原有实现过度消耗资源，还有评论者对作者在开发中使用 LLM 的方式表示认可。另有批评针对 rust-analyzer 拒绝磁盘缓存的长期设计决策。
+**「社区讨论」** 社区对项目的反应既有赞赏也有批评：一些评论者喜欢其“办公室”主题，认为这真实刻画了多代理系统的混乱和公司管理隐喻；另一些技术用户则指出它本质上仍是“流水线而非代理”，并希望用户能自定义角色而不是使用固定的代理人格，同时还能插入计划、审批门、代码审查等显式阶段。
 
-<details><summary>参考链接</summary>
-<ul>
-<li><a href="https://energylast.com/technical-information/rust-glancer-rust-lsp-using-100x-less-ram/">Rust Glancer : Rust LSP Using 100 X Less RAM - EnergyLast</a></li>
-<li><a href="https://1023jack.com/general/rust-glancer-rust-lsp-using-100x-less-ram/">Rust Glancer : Rust LSP Using 100 X Less RAM - 1023 Jack</a></li>
-<li><a href="https://rust-glancer.github.io/">Rust LSP that doesn&#x27;t eat memory for breakfast</a></li>
-
-</ul>
-</details>
-
-**标签**: `#rust`, `#LSP`, `#developer-tools`, `#performance`, `#memory`
+**标签**: `#multi-agent systems`, `#AI agents`, `#coding tools`, `#local harness`, `#token efficiency`
 
 ---
 
 <a id="item-tech-news-3"></a>
-### [软件没理由再慢了：Dan Luu 谈性能优化](https://danluu.com/perf-opt/) ⭐️ 8.0/10
+### [Linus Torvalds 称赞 AI 在内核调试中的帮助](https://simonwillison.net/2026/Aug/22/linus-torvalds/) ⭐️ 7.0/10
 
-Dan Luu 发表文章《There&\#x27;s no reason for software to be slow anymore》，主张现代软件没有理由继续缓慢，并针对性能优化给出具体见解。文章在 Hacker News 上引发 398 条讨论，讨论集中在 Electron 等跨平台框架造成的资源占用、网络请求带来的等待，以及 LLM 生成代码趋向冗长低效等议题。由于原文正文未随条目提供，文章中的具体性能数据和优化案例无法在此复述；评论中仍大量出现 Slack、VS Code 缺少原生版本、Windows 11 右键菜单延迟等实例，说明性能问题依然普遍。
+Linux 创始人 Linus Torvalds 在一份内核提交说明中描述了借助 AI 完成的艰难调试过程，称 AI 在大部分繁琐工作中提供了巨大帮助；尽管 AI 多次表示问题“不可能、无法解决”并建议写报告，但在 Torvalds 的推动下仍持续添加调试代码并进行分析，因此他给予肯定，并让 AI 撰写了提交说明。该提交涉及 drm/xe 驱动，标题为“Don&\#x27;t hand out the flat CCS storage as usable VRAM”，提交哈希为 818bebeb63dd6bf5f4e07e145f6cdbace520a34c。这则轶事由 Simon Willison 引用发布，被看作 AI 辅助编程在真实内核开发中获得认可的一个案例。
 
-hackernews · Jach · 8月22日 01:06 · [社区讨论](https://news.ycombinator.com/item?id=49395628)
+rss · Simon Willison · 8月22日 21:04
 
-**「背景」** Dan Luu 的文章《没有理由再让软件变慢》主张现代软件普遍存在不必要的性能浪费，并指出借助已有的优化技术和硬件能力，许多慢速应用本可以更快。文章在 Hacker News 上引发了大量讨论，评论中既有对 Electron 等重技术栈的批评，也有对 LLM 生成代码导致性能退化的担忧。相关工具结果确认了文章的存在及其讨论热度，并提及了原生 AOT 编译版本在性能上的优势等具体案例。
+**「背景」** Linux 内核由 Torvalds 创建并长期维护，提交说明通常由维护者手写，记录代码变更原因。AI 辅助编程工具近年被用于生成代码和调试，但内核开发中此类工具有时会被怀疑是否足够可靠。这条提交说明的特殊之处在于，Torvalds 不仅承认 AI 帮助调试，还让 AI 写提交信息，反映大型语言模型在真实系统开发中已进入实用场景。
 
-**「社区讨论」** 讨论中多数评论赞同软件变慢与 Electron、在线请求和资源滥用有关，并举出 Slack/VS Code 内存占用、Windows 11 右键菜单延迟等反例；另一些评论则持相反观感，认为近年软件“比以往更慢”，并认为 LLM 生成的代码往往冗长低效，无法解决性能问题。
+**「影响」** 这一表态为 AI 辅助调试在 Linux 内核及类似底层系统开发中的价值提供了重量级背书，可能推动更多内核开发者尝试类似工作流；但它只是一次调试经历的描述，并未提供性能数据或可复现的方法，不能据此推断 AI 调试在所有场景下都有效。
 
-<details><summary>参考链接</summary>
-<ul>
-<li><a href="https://danluu.com/perf-opt/">There &#x27; s no reason for software to be slow anymore</a></li>
-<li><a href="https://news.ycombinator.com/item?id=49395628">There &#x27; s no reason for software to be slow anymore | Hacker News</a></li>
-<li><a href="https://modernorange.io/item/49395628">There &#x27; s no reason for software to be slow anymore | Modern Orange</a></li>
-
-</ul>
-</details>
-
-**标签**: `#performance`, `#software engineering`, `#optimization`, `#systems`, `#programming`
+**标签**: `#linus-torvalds`, `#AI-assisted debugging`, `#linux-kernel`, `#software-engineering`, `#artificial-intelligence`
 
 ---
 
 <a id="item-tech-news-4"></a>
-### [OpenTelemetry 陷入困境：过早标准化与 SDK 复杂化受批评](https://matduggan.com/otel-isnt-going-well-and-i-made-a-spreadsheet-about-it/) ⭐️ 7.0/10
+### [苹果弃用 hdiutil，磁盘映像与 RAM 磁盘工作流堪忧](https://lapcatsoftware.com/articles/2026/8/7.html) ⭐️ 6.0/10
 
-一篇题为“OTel isn’t going well”的文章及 Hacker News 讨论认为，OpenTelemetry 因过早标准化、SDK 复杂以及 traces、metrics、logs 设计割裂而陷入困境。评论者反映 SDK 使用困难，过度强调自动插桩和 Java 式抽象，难以支持跨越数小时、数天甚至数周的分布式函数与多次重试步骤。还有人希望能在运行时动态决定将同一段代码暴露为指标、日志或追踪，而不是在三个独立设计间反复切换。目前讨论尚未提出统一解决方案，争论主要指向设计成熟度与生态整合问题。
+苹果在 macOS 27 Golden Gate 中弃用了 hdiutil 命令行工具，引发依赖磁盘映像和 RAM 磁盘工作流的用户担忧。hdiutil 是 macOS 上处理磁盘映像和创建 RAM 磁盘的核心工具。弃用后，苹果可能不再积极维护该工具，但社区指出 xip 虽已弃用多年仍被用于分发 Xcode，因此 hdiutil 短期内不会消失。目前苹果未公布明确的替代方案，开发者和系统管理员需要评估长期影响。
 
-hackernews · hn\_acker · 8月21日 17:45 · [社区讨论](https://news.ycombinator.com/item?id=49391553)
+hackernews · zdw · 8月22日 19:04 · [社区讨论](https://news.ycombinator.com/item?id=49402741)
 
-**「背景知识」** OpenTelemetry（OTel）是一个厂商中立的开源可观测性框架，用于生成、采集和导出追踪、指标和日志等遥测数据，并提供多种语言的 API 和 SDK。它的目标是为可观测性领域建立统一的标准，使应用程序能够以一致的方式接入不同的后端系统。社区对 OTel 的批评主要集中在它是否在标准设计尚未成熟时就过早标准化，以及 SDK 的复杂性和三个信号（追踪、指标、日志）之间的割裂设计。
+**「背景」** hdiutil 是 macOS 上长期用于管理磁盘映像（如 DMG）的命令行工具，可用于创建、附加、调整大小和获取信息等操作。在 macOS 27 Golden Gate 的 beta 版中，man hdiutil 的“新内容”部分宣布 hdiutil 已弃用，并建议改用 diskutil image 子命令（如 attach、create、resize、info、chpass）来完成所有磁盘映像操作。macOS 27 Golden Gate 是 Apple 在 WWDC 2025 确认的版本，因此开发者需要关注这一迁移方向，以避免未来兼容性问题。
 
-**「影响」** 对可观测性实践者而言，采用 OpenTelemetry 可能带来显著的集成与调试成本，尤其是在自托管场景和需要长时分布式执行的系统中。厂商对 OTel 支持不一致也会削弱其作为“一等公民”的体验，增加日志检索和跨平台使用的难度。
+**「影响」** 对依赖 hdiutil 创建和管理磁盘映像或 RAM 磁盘的开发者和系统管理员而言，该工具可能进入维护停滞状态，未来版本或将移除，他们需要寻找替代方案。不过基于 xip 的先例，短期内实际移除可能性较低。
 
-**「社区讨论」** 评论共识包括吐槽 SDK 过度设计、抱怨观测三支柱彼此独立且希望动态切换观测类型，以及自托管方案（如 Grafana 和 SigNoz）体验不佳。具体例子包括 Datadog 即插即用但 OTel 复杂，Graylog 将所有属性加上 otel\_attributes\_ 前缀导致检索困难，反映出厂商支持和实际使用中的别扭体验。
+**「社区讨论」** 社区评论中，有用户质疑苹果作为大型企业却不愿投入资源维护该工具，也有人认为 hdiutil 不会真正消失，因其长期未有大改动且 xip 已有类似先例；还有评论猜测 RAM 磁盘的创建方式可能也随之变化，并抱怨苹果对 bug 报告的处理态度。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://opentelemetry.io/docs/">Documentation | OpenTelemetry</a></li>
+<li><a href="https://en.wikipedia.org/wiki/MacOS_Golden_Gate">macOS Golden Gate - Wikipedia</a></li>
+<li><a href="https://lapcatsoftware.com/articles/2026/8/7.html">hdiutil is deprecated in macOS 27 Golden Gate</a></li>
+<li><a href="https://ss64.com/mac/hdiutil.html">HDIUtil Command: Manipulate disk images in macOS</a></li>
 
 </ul>
 </details>
 
-**标签**: `#OpenTelemetry`, `#Observability`, `#Distributed Tracing`, `#SDK Design`, `#Monitoring`
-
----
-
-<a id="item-tech-news-5"></a>
-### [llm-openrouter 0.7 发布：兼容 LLM 0.32 并新增服务端工具](https://simonwillison.net/2026/Aug/21/llm-openrouter/) ⭐️ 6.0/10
-
-llm-openrouter 0.7 已发布，本次更新适配了 LLM 0.32，使插件能够显示通过 OpenRouter 提供的模型的推理轨迹。模型现在使用 OpenRouter 对 Responses API 的实现，并新增了 Shell、WebFetch、WebSearch 三个服务端工具，用户可通过类似 -T WebSearch 的选项启用它们。该版本是 LLM 命令行生态的一次增量但实用的更新，主要面向使用 OpenRouter 的开发者。
-
-rss · Simon Willison · 8月21日 16:58
-
-**「背景」** LLM 是 Simon Willison 开发的命令行工具，用于与多种大语言模型交互，而 llm-openrouter 是连接 OpenRouter 服务的插件。OpenRouter 提供统一的模型访问入口，此次更新中插件转向其 Responses API，并加入服务端工具能力。
-
-**「影响」** 使用 OpenRouter 的 LLM 用户现在可以在命令行中调用 WebSearch、WebFetch 等服务端工具，并查看模型的推理轨迹，从而更有效地调试和利用模型能力。
-
-**标签**: `#llm`, `#openrouter`, `#plugin`, `#release`, `#ai-tools`
-
----
-
-<a id="item-tech-news-6"></a>
-### [停止制作 TUI：用原生界面替代一次性 CLI](https://simonwillison.net/2026/Aug/21/stop-making-tuis/) ⭐️ 6.0/10
-
-Simon Willison 引述了 Thomas Ptacek 的观点：由于编码智能体已经大幅降低了开发可用 GUI 的成本，开发者即使为最小的个人工具也应该构建真正的原生用户界面，而不是只做一次性 CLI。Willison 还提到自己 3 月用 vibe-coding 方式构建的两个 macOS 任务栏应用（带宽和 GPU 监控）至今仍每天使用，并承认自己“正在用尽借口”。该文主要属于观点分享，缺乏技术细节或重大新颖性。
-
-rss · Simon Willison · 8月21日 16:07
-
-**「背景」** 传统上，为小工具编写 CLI 比构建 GUI 便宜得多；但编码智能体可以自动生成 UI 代码，从而显著降低原生界面开发的成本。Ptacek 的博客文章正是基于这一成本变化来论证：既然原生界面已经便宜到几乎可以忽略不计，开发者就没有理由继续停留在一次性 CLI 的习惯里。
-
-**「影响」** 对习惯用 AI 助手开发一次性工具的开发者来说，这篇文章建议把更多个人项目升级为原生应用，这可能会改变开发者的思维方式，并提升工具的日常可用性。不过这一结论主要来自 Ptacek 的观点和 Willison 的个人经验，仍属于建议性质，而非普遍验证过的最佳实践。
-
-**标签**: `#native-ui`, `#coding-agents`, `#development-tools`, `#opinion`, `#software-engineering`
+**标签**: `#macOS`, `#hdiutil`, `#deprecation`, `#developer tools`, `#disk images`
 
 ---
 
 ## 财经新闻
 
 <a id="item-finance-news-1"></a>
-### [美国最高法院否决特朗普关税后企业开始收到退款](https://www.marketwatch.com/story/a-massive-corporate-welfare-program-is-underway-and-consumers-want-a-bigger-cut-of-it-0ff06d67?mod=mw_rss_topstories) ⭐️ 8.0/10
+### [加拿大宣布对美国商品实施对等报复性关税](https://www.marketwatch.com/story/canada-announces-retaliatory-tariffs-on-u-s-goods-after-trade-talks-break-down-45081c2f?mod=mw_rss_topstories) ⭐️ 8.0/10
 
-美国最高法院推翻了特朗普的关税措施后，关税退款正在返还给相关企业，标志着贸易政策出现重大法律转向。
+加拿大总理马克·卡尼宣布，在美加贸易谈判破裂后，加拿大将对美国商品征收“美元对美元”的对等报复性关税。具体涉及商品范围和规模尚未公布。
 
-rss · MarketWatch Top Stories · 8月22日 11:00
+rss · MarketWatch Top Stories · 8月22日 20:31
 
-**「背景」** 2026 年 2 月 20 日，美国最高法院以 6 比 3 裁定特朗普依据《国际紧急经济权力法》征收的广泛关税越权无效；此后美国海关开始向企业退还已缴关税，据报道已退还约 1000 亿美元。
+**「背景」** 美国于 8 月 22 日对部分加拿大商品加征 50%关税，此前两国贸易谈判于周五破裂。加拿大总理卡尼随即宣布采取“对等”报复性关税，并称相关措施将于 9 月 8 日生效。
 
-**「影响」** 超过 330,000 家美国企业曾为约 5,300 万批货物支付关税，现可申请逾 1,660 亿美元的退税，但资金预计将优先弥补企业过去损失，消费者可能还不会立即获得直接现金减免。
+**「影响」** 美国对加出口商和依赖美国原材料的加拿大企业将直接面临成本上升。类似措施在 2025 年 3 月曾覆盖近 300 亿加元美国商品。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://www.businesstoday.in/world/us/story/us-pays-out-100-billion-in-tariff-refunds-after-supreme-court-struck-down-trumps-ieepa-duties-547521-2026-08-06">US pays out $100 billion in tariff refunds after Supreme Court struck ...</a></li>
-<li><a href="https://economictimes.indiatimes.com/news/international/us/166b-tariff-refunds-released-when-are-americans-getting-their-tariff-refunds-and-will-they-actually-get-them/articleshow/130416751.cms">Tariff refunds 2026: $166 billion payout begins: $166B Tariff refunds ...</a></li>
+<li><a href="https://www.cnbc.com/2026/08/22/us-canada-trade-talks-collapse-ushering-in-wave-of-new-tariffs.html">U.S.-Canada talks fail; Carney says retaliatory tariffs start Sept. 8</a></li>
+<li><a href="https://www.theguardian.com/us-news/2025/mar/12/canada-tariffs-us">Canada announces retaliatory tariffs on nearly C$30bn worth of US ...</a></li>
 
 </ul>
 </details>
 
-**标签**: `#tariffs`, `#Supreme Court`, `#trade policy`, `#refunds`, `#corporate welfare`
+**标签**: `#trade policy`, `#tariffs`, `#Canada`, `#U.S.-Canada relations`, `#international trade`
+
+---
+
+<a id="item-finance-news-2"></a>
+### [美国财政部加倍债券回购引发黄金和比特币上涨](https://www.marketwatch.com/story/why-an-announcement-from-the-treasury-sparked-a-rally-in-gold-and-bitcoin-this-week-d9d5972b?mod=mw_rss_topstories) ⭐️ 8.0/10
+
+美国财政部表示计划将债券回购（买回已发行国债）规模翻倍，消息公布后黄金和比特币等资产价格上涨，美元走软。
+
+rss · MarketWatch Top Stories · 8月22日 13:00
+
+**「背景」** 美国财政部周三意外宣布，将把计划中的较长期国债回购规模至少增加一倍，以在债券持续遭抛售后安抚债市。国债回购指财政部购回自身未到期债券，这一消息令投资者预期美元承压，并转向黄金和比特币等资产。
+
+<details><summary>参考链接</summary>
+<ul>
+<li><a href="https://apnews.com/article/gold-bitcoin-treasury-dollar-bessent-inflation-trump-be7df8c0eaa159e4149df8efc4000fc9">Gold and bitcoin went from chumps to champs very quickly this week | AP News</a></li>
+
+</ul>
+</details>
+
+**标签**: `#Treasury`, `#Bond Buybacks`, `#Gold`, `#Bitcoin`, `#Dollar`
+
+---
+
+<a id="item-finance-news-3"></a>
+### [Sandbox 遭攻击后暂停 Base 和 BNB 链桥接](https://www.coindesk.com/web3/2026/08/22/web3-gaming-network-sandbox-stops-base-and-bnb-chain-bridging-after-exploit) ⭐️ 6.0/10
+
+Web3 游戏网络 Sandbox 在一次安全漏洞利用后，已停止 Base 和 BNB 链的跨链桥接服务。
+
+rss · CoinDesk · 8月22日 14:10
+
+**「背景」** The Sandbox 在 8 月 22 日披露，一名恶意行为者利用其 SAND 跨链桥在 Base 和 BNB Smart Chain 上的漏洞，铸造了无担保代币，随后平台暂停了跨链转移并冻结了这些网络上的代币功能。
+
+**「影响」** 使用 Base 和 BNB Smart Chain 跨链桥的 SAND 持有者受直接影响；Sandbox 称漏洞已完全控制，影响不到总供应量的 0.01%，没有用户钱包被入侵，以太坊上锁定的 SAND 安全。
+
+<details><summary>参考链接</summary>
+<ul>
+<li><a href="https://www.coindesk.com/web3/2026/08/22/web3-gaming-network-sandbox-stops-base-and-bnb-chain-bridging-after-exploit">Web3 gaming network Sandbox stops Base and BNB chain bridging after exploit</a></li>
+<li><a href="https://cryptobriefing.com/sandbox-halts-bridging-sand-exploit/">Sandbox halts Base and BNB Chain bridging after exploit mints billions ...</a></li>
+<li><a href="https://finance.yahoo.com/markets/crypto/articles/sandbox-contains-bridge-exploit-unbacked-082049821.html">The Sandbox Contains Bridge Exploit After Unbacked SAND Minted on Base ...</a></li>
+<li><a href="https://coinpedia.org/news/the-sandbox-sand-exploit-49b-in-new-tokens-flood-base/">The Sandbox SAND Exploit: $49B in New Tokens Flood Base</a></li>
+<li><a href="https://www.tradingview.com/news/coinpedia:452038594094b:0-the-sandbox-sand-exploit-49b-in-new-tokens-flood-base/">The Sandbox SAND Exploit: $49B in New Tokens Flood Base — TradingView News</a></li>
+<li><a href="https://cryptorank.io/news/feed/49fcb-the-sandbox-sand-exploit-49b-in-new-tokens-flood-base">The Sandbox SAND Exploit: $49B in New Tokens Flood Base | News | CryptoRank.io</a></li>
+
+</ul>
+</details>
+
+**标签**: `#Web3`, `#gaming`, `#blockchain`, `#security exploit`, `#Sandbox`
+
+---
+
+<a id="item-finance-news-4"></a>
+### [预测市场平台 Kalshi 在多个州被禁，CFTC 与州监管机构加强行动](https://www.coindesk.com/news-analysis/2026/08/21/kalshi-off-limits-in-multiple-states-as-prediction-markets-cftc-team-up-for-battle) ⭐️ 6.0/10
+
+据 CoinDesk 报道，用户可对事件结果下注的预测市场平台 Kalshi 已在多个州被禁止运营，州监管机构与美国商品期货交易委员会（CFTC）正联合加强对这类市场的监管行动。
+
+rss · CoinDesk · 8月22日 13:30
+
+**「背景」** Kalshi 是一个预测市场平台，用户可就事件结果下注；多个州的监管机构已取得法院命令，要求 Kalshi 在这些州限制或停止运营，同时美国商品期货交易委员会（CFTC）也在参与应对。
+
+<details><summary>参考链接</summary>
+<ul>
+<li><a href="https://predictionmarkets.us/kalshi-state-restrictions-active-2026">Kalshi State Restrictions Tracker — Active Court Orders 2026</a></li>
+
+</ul>
+</details>
+
+**标签**: `#Kalshi`, `#prediction markets`, `#CFTC`, `#regulation`, `#state restrictions`
+
+---
+
+<a id="item-finance-news-5"></a>
+### [Zcash 大涨 48%突破 800 美元，受 Grayscale 现货 ETF 申请推动](https://www.coindesk.com/markets/2026/08/22/zcash-tops-usd800-for-first-time-since-2016) ⭐️ 6.0/10
+
+Zcash 价格在 2026 年 8 月 22 日上涨 48%，突破 800 美元，为 2016 年以来首次。Grayscale 现货 ETF 申请及市场对其“下一个比特币”的炒作被视为此次上涨的推动因素。
+
+rss · CoinDesk · 8月22日 05:37
+
+**「背景」** Grayscale 向美国监管机构提交文件，推进将其 Zcash 信托转换为现货 ETF（直接投资 Zcash 的交易所交易基金），这被市场视为机构资金进入隐私币领域的信号，促使 ZEC 在 8 月 22 日突破 2018 年高点。
+
+<details><summary>参考链接</summary>
+<ul>
+<li><a href="https://cryptocapitalnews.com/2026/08/22/zcash-jumps-48-past-800-to-decade-high-as-grayscale-advances-spot-etf-bid/">Zcash Jumps 48% Past $800 on Grayscale Spot ETF Filing</a></li>
+<li><a href="https://cryptobriefing.com/zcash-surges-42-percent-past-800-grayscale-etf/">Zcash surges over 42% to surpass $800 as Grayscale files for ZEC ETF</a></li>
+<li><a href="https://www.coindesk.com/markets/2026/08/22/zcash-tops-usd800-for-first-time-since-2016">ZEC price news: Zcash zooms almost 50% to over $800 for first time ...</a></li>
+
+</ul>
+</details>
+
+**标签**: `#Zcash`, `#Grayscale`, `#cryptocurrency`, `#ETF`, `#price surge`
 
 ---

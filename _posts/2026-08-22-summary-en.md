@@ -5,173 +5,219 @@ date: 2026-08-22
 lang: en
 ---
 
-> From 52 items, 7 important content pieces were selected
+> From 36 items, 9 important content pieces were selected
 
 ---
 
 **Technology News**
-1. [Munder Difflin: Run deterministic office simulations with your coding agents](#item-tech-news-1) ⭐️ 8.0/10
-2. [Rust Glancer: New Rust LSP Claims 100x Less RAM](#item-tech-news-2) ⭐️ 8.0/10
-3. [Why Modern Software Feels Slow and Performance Still Matters](#item-tech-news-3) ⭐️ 8.0/10
-4. [OpenTelemetry Faces Growing Criticism Over SDK Complexity and Design](#item-tech-news-4) ⭐️ 7.0/10
-5. [llm-openrouter 0.7 Adds Responses API and Server-Side Tools](#item-tech-news-5) ⭐️ 6.0/10
-6. [Why Developers Should Stop Making TUIs and Build Native UIs](#item-tech-news-6) ⭐️ 6.0/10
+1. [Why Local LLMs Underperform: Quantization, Chat Templates, Config](#item-tech-news-1) ⭐️ 7.0/10
+2. [Munder Difflin: Run an Office of Coding Agent Clones Locally](#item-tech-news-2) ⭐️ 7.0/10
+3. [AI helped Linus Torvalds through a kernel &\#x27;debug session from hell&\#x27;](#item-tech-news-3) ⭐️ 7.0/10
+4. [Apple deprecates hdiutil in macOS 27 Golden Gate](#item-tech-news-4) ⭐️ 6.0/10
 
 **Financial News**
-1. [Supreme Court rejects Trump tariffs; refunds return to companies](#item-finance-news-1) ⭐️ 8.0/10
+1. [Canada Announces Dollar-for-Dollar Retaliatory Tariffs on U.S. Goods After Trade Talks Break Down](#item-finance-news-1) ⭐️ 8.0/10
+2. [Treasury&\#x27;s plan to double bond buybacks lifts gold and bitcoin, weakens dollar](#item-finance-news-2) ⭐️ 8.0/10
+3. [Sandbox Halts Base and BNB Chain Bridging After Exploit](#item-finance-news-3) ⭐️ 6.0/10
+4. [Kalshi faces state bans and CFTC action over prediction markets](#item-finance-news-4) ⭐️ 6.0/10
+5. [Zcash surges 48% to above $800 after Grayscale spot ETF filing](#item-finance-news-5) ⭐️ 6.0/10
 
 ---
 
 ## Technology News
 
 <a id="item-tech-news-1"></a>
-### [Munder Difflin: Run deterministic office simulations with your coding agents](https://munderdiffl.in/) ⭐️ 8.0/10
+### [Why Local LLMs Underperform: Quantization, Chat Templates, Config](https://forum.level1techs.com/t/why-your-local-llm-feels-dumber-than-it-is/253917) ⭐️ 7.0/10
 
-Munder Difflin is a local multi-agent harness that wraps existing coding agents such as Claude Code and Codex into deterministic, token-efficient office-style simulations. The tool gained rapid traction, with its creator reporting 20K+ users within a week and noting that the simulations are deterministic and do not consume tokens, often reducing overall token usage. It is designed to work with almost all coding-agent harnesses, making it broadly applicable to existing AI coding workflows. While the office framing is a joke, the underlying approach to role-based, deterministic orchestration has generated substantial practical interest for multi-agent experimentation.
+A Level1Techs forum post explores why locally run LLMs often feel dumber than they are, attributing the gap to quantization, chat template mismatches, and runtime configuration issues rather than model capacity. It argues that a model can behave noticeably worse when a GGUF file drops template metadata and a runtime silently falls back to a generic template, and when sampling settings differ from vendor recommendations. The post positions these configuration problems as more common practical causes of poor output than the choice of quant, and suggests users inspect template tokens and runtime defaults before blaming the model. Community members corroborate the emphasis on chat template and sampling pitfalls, while also reporting surprisingly strong local results with Qwen models on MLX and a 4090.
 
-hackernews · simonpure · Aug 22, 09:49 · [Discussion](https://news.ycombinator.com/item?id=49398152)
+hackernews · felineflock · Aug 22, 18:14 · [Discussion](https://news.ycombinator.com/item?id=49402232)
 
-**「Background」** Multi-agent AI systems typically coordinate independent agents that communicate asynchronously, which can become nondeterministic and token-intensive. Munder Difflin addresses this by providing a deterministic simulation layer that wraps existing coding agents, allowing users to model an &amp;quot;office&amp;quot; of agents with defined roles and workflows. This approach consumes no additional agent tokens because the simulation itself manages the orchestration logic rather than requiring agents to hold extended conversations.
+**「Background」** Local LLMs are usually run in quantized formats such as GGUF, a compression technique that trades model size and memory usage for some quality loss; FP16/BF16 is reference quality, Q8 is almost indistinguishable from FP16, and lighter quantizations such as Q3 or Q2 place a clearer ceiling on output quality. A second common failure point is chat-template metadata: a model&\#x27;s performance depends on the exact conversation formatting it was trained with, and if a GGUF file omits that metadata, runtimes may silently fall back to a generic template such as ChatML, making the model appear to talk normally while producing noticeably worse answers. Sampling settings and runtime configuration add another layer, but quantization and template mismatches are often the real reasons a local model feels dumber than its benchmark results suggest.
 
-**「Impact」** Developers who already pay for Claude Code or Codex subscriptions can use Munder Difflin to experiment with multi-agent workflows locally without incurring extra token costs, and early adoption suggests strong demand for practical multi-agent orchestration tools. The impact is mostly practical rather than a fundamental research breakthrough, as the harness improves coordination and cost efficiency rather than introducing new agent capabilities.
+**「Impact」** Users of local LLM runtimes, especially Ollama and GGUF-based tools, should audit chat template metadata and sampling defaults rather than assuming model quality explains poor output; a silent fallback to a generic template can degrade performance noticeably.
 
-**「Community Discussion」** Commenters are fascinated but divided: one user criticizes it as pipelines and roles rather than true agents, asking for configurable roles and approval gates, while the creator, Chaitanya, emphasizes its deterministic, token-saving design and invites questions. Others praise the office spatial-map analogy for managing concurrent agents and enjoy the management-game framing where the user plays Michael and the agents are overly literal Dwights.
+**「Community discussion」** Commenters largely agree that chat template mismatches and sampling defaults are more common culprits than quantization, with one user advising people to grep GGUF files for template tokens before blaming the model. Several report strong local results with Qwen models on a MacBook Pro and a 4090, while another asks whether Ollama&\#x27;s default inference configuration contributes to perceived dumbness.
 
-**Tags**: `#multi-agent`, `#AI agents`, `#coding agents`, `#harness`, `#simulation`
+<details><summary>References</summary>
+<ul>
+<li><a href="https://faughtsthoughts.substack.com/p/the-no-nonsense-guide-to-local-llm">The No Nonsense Guide to Local LLM Quantization</a></li>
+<li><a href="https://www.xda-developers.com/local-llm-settings-most-people-never-touch/">8 local LLM settings most people never touch that fixed my worst AI ...</a></li>
+
+</ul>
+</details>
+
+**Tags**: `#local-llm`, `#quantization`, `#chat-template`, `#llm-inference`, `#ollama`
 
 ---
 
 <a id="item-tech-news-2"></a>
-### [Rust Glancer: New Rust LSP Claims 100x Less RAM](https://rust-glancer.github.io/blog/hello-world/) ⭐️ 8.0/10
+### [Munder Difflin: Run an Office of Coding Agent Clones Locally](https://munderdiffl.in/) ⭐️ 7.0/10
 
-Rust Glancer is a new Rust language server \(LSP\) announced by matklad, best known as the creator of rust-analyzer. The project claims to use roughly 100 times less RAM than existing Rust LSP implementations, and the announcement describes an LLM-assisted development approach in which the author takes responsibility for the generated code. Community members responded positively to the prospect of lower editor memory use, while also questioning whether such a large improvement reflects poorly on rust-analyzer&\#x27;s original resource usage. The performance claim comes from the announcement and has not been independently verified.
+Munder Difflin is a local multi-agent harness that wraps existing coding agent subscriptions such as Claude Code and Codex, letting developers simulate an office of AI clones while keeping simulations deterministic and token-free. The project gained rapid traction with more than 20,000 users in its first week, many reporting reduced token consumption compared to running agents directly. It supports almost all major coding-agent harnesses and is aimed at AI engineers experimenting with multi-agent workflows. The tool&\#x27;s The Office theme highlights the dysfunction of agent teams, but it also provides a practical way to coordinate coding agents without burning tokens.
 
-hackernews · matklad · Aug 21, 19:51 · [Discussion](https://news.ycombinator.com/item?id=49393052)
+hackernews · simonpure · Aug 22, 09:49 · [Discussion](https://news.ycombinator.com/item?id=49398152)
 
-**「Background」** Rust Glancer, announced on August 21, 2026, is a new language server protocol \(LSP\) implementation for Rust that claims to use roughly 100 times less RAM than existing Rust LSPs. It is developed by Matklad, the creator of rust-analyzer, which is the widely used reference LSP for Rust. Unlike rust-analyzer, which stores information in memory and recomputes it dynamically, Rust Glancer uses frozen workspaces that can be offloaded to the filesystem, aiming to reduce the high memory and CPU usage that rust-analyzer typically incurs during indexing and background analysis.
+**「Background」** Multi-agent systems coordinate several AI models or agents to perform complex tasks, but running many agents can be expensive because each call consumes tokens. Munder Difflin addresses this by using deterministic simulations that do not consume tokens, wrapping existing coding agents so teams can prototype office-like workflows and role interactions before spending real API budget.
 
-**「Impact」** One affected Rust developer reported machine stutter when rust-analyzer runs during builds and tests, so a memory-lean Rust LSP could directly relieve that pain if the announced 100x reduction holds in practice.
+**「Impact」** Developers using Claude Code or Codex can cut token costs while testing multi-agent coordination locally, and the tool&\#x27;s rapid adoption suggests strong demand for lightweight agent orchestration.
 
-**「Community Discussion」** Commenters were generally excited about the project and the author&\#x27;s LLM-assisted workflow, but some argued that a 100x gain mainly highlights how memory-hungry rust-analyzer has become; one critic specifically cited rust-analyzer&\#x27;s refusal to use disk cache. The author, popzxc, joined the thread and offered to answer questions.
+**「Community Discussion」** Commenters appreciated The Office theme as a fitting metaphor for agent swarms, where competing goals often lead to humorous collapse. The builder, Chaitanya, answered questions and noted that simulations are deterministic and token-free. Some users, however, complained that the current model is more like pipelines than true agents, asking for role-based definitions and pipeline stages like plan, review, approval, develop, and code review.
 
-<details><summary>References</summary>
-<ul>
-<li><a href="https://energylast.com/technical-information/rust-glancer-rust-lsp-using-100x-less-ram/">Rust Glancer : Rust LSP Using 100 X Less RAM - EnergyLast</a></li>
-<li><a href="https://1023jack.com/general/rust-glancer-rust-lsp-using-100x-less-ram/">Rust Glancer : Rust LSP Using 100 X Less RAM - 1023 Jack</a></li>
-<li><a href="https://rust-glancer.github.io/">Rust LSP that doesn&#x27;t eat memory for breakfast</a></li>
-
-</ul>
-</details>
-
-**Tags**: `#rust`, `#LSP`, `#developer-tools`, `#performance`, `#memory`
+**Tags**: `#multi-agent systems`, `#AI agents`, `#coding tools`, `#local harness`, `#token efficiency`
 
 ---
 
 <a id="item-tech-news-3"></a>
-### [Why Modern Software Feels Slow and Performance Still Matters](https://danluu.com/perf-opt/) ⭐️ 8.0/10
+### [AI helped Linus Torvalds through a kernel &\#x27;debug session from hell&\#x27;](https://simonwillison.net/2026/Aug/22/linus-torvalds/) ⭐️ 7.0/10
 
-Dan Luu argues in his essay &\#x27;There&\#x27;s no reason for software to be slow anymore&\#x27; that modern applications are unnecessarily slow and that performance optimization still matters despite today&\#x27;s hardware. The post draws on concrete optimization insights and became a heavily discussed Hacker News item with 398 comments, reflecting broad developer interest. It contends that much desktop and web software wastes available performance through poor tooling choices and design, rather than fundamental technical limits. The surrounding discussion points to Electron apps, network round-trips, and verbose LLM-generated code as perceived culprits. The takeaway is that performance remains a central engineering consideration, not an optional polish.
+In a Linux kernel commit fixing a DRM/Xe driver issue, Linus Torvalds described a &quot;debug session from hell&quot; that was &quot;enormously helped by an AI doing much of the grunt-work.&quot; He reported that the AI repeatedly added debug code and faithfully analyzed it when pushed, though it several times declared the problem impossible and unsolvable. Torvalds credited the AI as a &quot;tireless helper,&quot; noted that its pessimism may come from training data, and allowed the AI to write the commit message. The commit is titled &quot;drm/xe: Don&\#x27;t hand out the flat CCS storage as usable VRAM.&quot;
 
-hackernews · Jach · Aug 22, 01:06 · [Discussion](https://news.ycombinator.com/item?id=49395628)
+rss · Simon Willison · Aug 22, 21:04
 
-**「Background」** Dan Luu&\#x27;s essay argues that much modern software is unnecessarily slow and that performance optimization is often neglected due to perceived cost, despite being feasible. The article cites concrete examples, such as a regex engine where a native ahead-of-time \(AOT\) compiled version performed well on longer searches, suggesting that performance can be improved without sacrificing correctness. The surrounding discussion reflects common developer frustrations with slow Electron apps, network latency, and heavier operating systems, which help explain why the topic resonates.
+**「Background」** Linus Torvalds is the creator and lead maintainer of the Linux kernel, and his commit messages are part of the kernel&\#x27;s public development record. The referenced commit concerns a fix in the DRM/Xe driver area, where kernel debugging frequently requires tracing complex memory-management behavior. This quote shows a prominent systems programmer using an AI assistant in a demanding debugging workflow.
 
-**「Impact」** For software developers and users, the discussion underscores growing frustration with memory-hungry desktop apps and network-bound UIs, and reasserts performance optimization as a visible quality criterion.
+**「Impact」** The statement provides prominent real-world validation of AI-assisted debugging for the Linux kernel, evidenced by the AI-generated commit message now in the kernel tree.
 
-**「Community Discussion」** Commenters broadly agree that software feels slower than necessary, citing Electron-based apps like Slack and VS Code, latency from web requests especially outside the US, and UI delays such as Windows 11&\#x27;s context menu. A counterpoint notes that LLM-generated code tends to be verbose and slower, suggesting the problem may worsen with AI-assisted development.
-
-<details><summary>References</summary>
-<ul>
-<li><a href="https://danluu.com/perf-opt/">There &#x27; s no reason for software to be slow anymore</a></li>
-<li><a href="https://news.ycombinator.com/item?id=49395628">There &#x27; s no reason for software to be slow anymore | Hacker News</a></li>
-
-</ul>
-</details>
-
-**Tags**: `#performance`, `#software engineering`, `#optimization`, `#systems`, `#programming`
+**Tags**: `#linus-torvalds`, `#AI-assisted debugging`, `#linux-kernel`, `#software-engineering`, `#artificial-intelligence`
 
 ---
 
 <a id="item-tech-news-4"></a>
-### [OpenTelemetry Faces Growing Criticism Over SDK Complexity and Design](https://matduggan.com/otel-isnt-going-well-and-i-made-a-spreadsheet-about-it/) ⭐️ 7.0/10
+### [Apple deprecates hdiutil in macOS 27 Golden Gate](https://lapcatsoftware.com/articles/2026/8/7.html) ⭐️ 6.0/10
 
-The article argues that OpenTelemetry is struggling because it standardized before its design was settled, leading to overly complex SDKs and a fragmented architecture where traces, metrics, and logs are designed independently. The Hacker News discussion supports this with concrete complaints: SDKs are described as a nightmare, too much emphasis is placed on automatic instrumentation, and Java-style abstractions make everything stateful and opaque. Commenters also report that OTel distributed tracing breaks down for durable execution engines, Cloudflare Workflows, and functions that span hours, days, or weeks with many retries, and that long-running and retrying steps are not handled well. Several users note that the self-hosted observability experience is poor, with Grafana and SigNoz both unwieldy, while another says vendors make OTel a second-class citizen, citing Graylog&\#x27;s awkward otel\_attributes\_ prefix on log attributes. Overall, the piece and comments present a critical view of OTel&\#x27;s current maturity and usability.
+Apple has deprecated the hdiutil command-line tool in macOS 27 Golden Gate, according to an article by Lapcat Software. hdiutil is widely used for creating, mounting, and manipulating disk images as well as for creating RAM disks. The deprecation signals that Apple may stop updating the tool and could eventually remove it, although no removal timeline has been specified. Developers and system administrators who rely on hdiutil in scripts will need to consider alternatives.
 
-hackernews · hn\_acker · Aug 21, 17:45 · [Discussion](https://news.ycombinator.com/item?id=49391553)
+hackernews · zdw · Aug 22, 19:04 · [Discussion](https://news.ycombinator.com/item?id=49402741)
 
-**「Background」** OpenTelemetry \(OTel\) is a vendor-neutral open source observability framework for instrumenting, generating, collecting, and exporting telemetry data such as traces, metrics, and logs. It separates a public API from SDKs, which provide working implementations and handle configuration and export. The article under discussion argues that OTel&\#x27;s premature standardization, SDK complexity, and separate design of the three telemetry pillars have made adoption and use difficult in practice.
+**「Background」** hdiutil is Apple&\#x27;s long-standing command-line utility for creating, mounting, resizing, and managing disk images and RAM disks on macOS. macOS 27 Golden Gate, the successor to macOS 26 Tahoe, was confirmed by Apple at WWDC 2025, and its man page now states that hdiutil is deprecated in favor of diskutil image for all disk image operations. This means Apple no longer plans significant updates to hdiutil, though it may remain present for compatibility.
 
-**「Impact」** For developers adopting OpenTelemetry, the practical consequence is that distributed tracing for durable execution and long-running workflows is unreliable, and integration with existing log systems can be awkward, undermining OTel&\#x27;s goal of being a drop-in replacement for proprietary agents.
+**「Impact」** Developers and system administrators who automate disk-image creation or RAM disk setup may need to migrate to other tools or methods, though the deprecation alone does not guarantee immediate removal from macOS.
 
-**「Community Discussion」** Commenters largely agree that OTel&\#x27;s design is premature and that SDK usability is a major pain point. Some propose more dynamic approaches, such as annotating code once and letting the runtime decide whether to emit a metric, log, or trace, while others express broader dissatisfaction with the entire self-hosted observability ecosystem.
+**「Community discussion」** Commenters are skeptical that Apple will actually remove hdiutil, noting that xip has been deprecated for a long time yet is still used to distribute Xcode. Others criticize Apple&\#x27;s bug-report handling, mentioning that reproducible steps were ignored in favor of requests for latest-beta confirmation and sysdiagnose submission.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://opentelemetry.io/docs/languages/php/sdk/">SDK | OpenTelemetry</a></li>
-<li><a href="https://opentelemetry.io/docs/">Documentation | OpenTelemetry</a></li>
-<li><a href="https://www.elastic.co/what-is/opentelemetry">What is OpenTelemetry ? | Elastic</a></li>
+<li><a href="https://en.wikipedia.org/wiki/MacOS_Golden_Gate">macOS Golden Gate - Wikipedia</a></li>
+<li><a href="https://lapcatsoftware.com/articles/2026/8/7.html">hdiutil is deprecated in macOS 27 Golden Gate</a></li>
 
 </ul>
 </details>
 
-**Tags**: `#OpenTelemetry`, `#Observability`, `#Distributed Tracing`, `#SDK Design`, `#Monitoring`
-
----
-
-<a id="item-tech-news-5"></a>
-### [llm-openrouter 0.7 Adds Responses API and Server-Side Tools](https://simonwillison.net/2026/Aug/21/llm-openrouter/) ⭐️ 6.0/10
-
-Simon Willison released llm-openrouter 0.7, an update to the LLM CLI plugin for OpenRouter. The plugin now works with LLM 0.32 and can display reasoning traces for models available through OpenRouter. Models in the plugin use OpenRouter&\#x27;s implementation of the Responses API. Three new server-side tools are included: Shell, WebFetch, and WebSearch, enabled with options such as -T WebSearch.
-
-rss · Simon Willison · Aug 21, 16:58
-
-**「Background」** LLM is a command-line tool for running large language models from many providers, and llm-openrouter is a plugin that connects it to OpenRouter, a service offering access to numerous models through a unified API. LLM 0.32 introduced support for showing reasoning traces, and OpenRouter&\#x27;s Responses API supports server-side execution of tools rather than requiring every tool call to be handled locally.
-
-**「Impact」** Users of llm-openrouter can now use server-side Shell, WebFetch, and WebSearch tools and see reasoning traces from OpenRouter models while remaining compatible with LLM 0.32.
-
-**Tags**: `#llm`, `#openrouter`, `#plugin`, `#release`, `#ai-tools`
-
----
-
-<a id="item-tech-news-6"></a>
-### [Why Developers Should Stop Making TUIs and Build Native UIs](https://simonwillison.net/2026/Aug/21/stop-making-tuis/) ⭐️ 6.0/10
-
-Thomas Ptacek argues that developers should stop making TUIs \(text-based terminal interfaces\) for small personal tools and instead build real native user interfaces, because coding agents have reduced the cost of getting a usable GUI up and running to almost nothing. Simon Willison endorses the argument, noting that his vibe-coded SwiftUI macOS menu-bar apps for bandwidth and GPU monitoring, created in March, are still in daily use. Willison admits he has not yet converted all of his projects to real UIs but says he is running out of excuses. He quotes Ptacek: &quot;Go build a native UI. It&\#x27;ll probably change the way you think.&quot;
-
-rss · Simon Willison · Aug 21, 16:07
-
-**「Background」** Command-line tools and terminal-based TUIs have long been the default for quick personal utilities because hand-writing a GUI was expensive and time-consuming. AI coding agents and &quot;vibe coding&quot; have changed that economics by generating working native interface code from natural-language prompts, making GUI apps a cheap alternative for developers who previously would have reached for a throwaway CLI.
-
-**「Impact」** The practical takeaway for developers using coding assistants is that the effort threshold for building a small native app has dropped enough that it can become the default choice over a throwaway CLI or TUI, as Willison demonstrated with his two macOS menu-bar apps.
-
-**Tags**: `#native-ui`, `#coding-agents`, `#development-tools`, `#opinion`, `#software-engineering`
+**Tags**: `#macOS`, `#hdiutil`, `#deprecation`, `#developer tools`, `#disk images`
 
 ---
 
 ## Financial News
 
 <a id="item-finance-news-1"></a>
-### [Supreme Court rejects Trump tariffs; refunds return to companies](https://www.marketwatch.com/story/a-massive-corporate-welfare-program-is-underway-and-consumers-want-a-bigger-cut-of-it-0ff06d67?mod=mw_rss_topstories) ⭐️ 8.0/10
+### [Canada Announces Dollar-for-Dollar Retaliatory Tariffs on U.S. Goods After Trade Talks Break Down](https://www.marketwatch.com/story/canada-announces-retaliatory-tariffs-on-u-s-goods-after-trade-talks-break-down-45081c2f?mod=mw_rss_topstories) ⭐️ 8.0/10
 
-President Donald Trump’s tariffs were struck down by the Supreme Court, and tariff refunds have been flowing back to companies, according to a MarketWatch report. The report did not disclose refund amounts or how many companies received payments.
+Canadian Prime Minister Mark Carney announced on Saturday that Canada will impose “dollar-for-dollar” retaliatory tariffs on U.S. goods after trade talks between the two countries broke down. The specific products, total value, and effective date have not been detailed.
 
-rss · MarketWatch Top Stories · Aug 22, 11:00
+rss · MarketWatch Top Stories · Aug 22, 20:31
 
-**「Background」** On February 20, 2026, the Supreme Court ruled that President Trump had overstepped his authority by using the International Emergency Economic Powers Act — a 1977 law meant for national security threats — to impose the tariffs. That ruling made the duties illegal, and the U.S. has since paid out about $100 billion in refunds to companies that had paid them, with more refund disputes expected to move through lower courts.
-
-**「Impact」** The $166 billion in refunds is going first to more than 330,000 U.S. businesses that paid duties on 53 million shipments, with most payments arriving within 60-90 days, meaning households are unlikely to see direct relief and the economic damage from the tariff turmoil cannot be refunded.
+**「Background」** Trade talks between the U.S. and Canada broke down Friday, and the U.S. then imposed 50% tariffs on some Canadian products. Canada said it would retaliate with matching dollar-for-dollar tariffs starting Sept. 8.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://www.theguardian.com/us-news/2026/feb/21/retailers-trump-tariffs-refunds">US businesses clamor for refunds after supreme court strikes down ...</a></li>
-<li><a href="https://www.npr.org/2026/05/03/nx-s1-5805045/tariff-refunds-small-business">This quest for tariff refunds shows why billions may never get... : NPR</a></li>
-<li><a href="https://www.businesstoday.in/world/us/story/us-pays-out-100-billion-in-tariff-refunds-after-supreme-court-struck-down-trumps-ieepa-duties-547521-2026-08-06">US pays out $100 billion in tariff refunds after Supreme Court struck ...</a></li>
-<li><a href="https://economictimes.indiatimes.com/news/international/us/166b-tariff-refunds-released-when-are-americans-getting-their-tariff-refunds-and-will-they-actually-get-them/articleshow/130416751.cms">Tariff refunds 2026: $166 billion payout begins: $166B Tariff refunds ...</a></li>
-<li><a href="https://taxfoundation.org/blog/tariff-refunds-wiped-out-tariff-revenue-since-may/">Tariff Refunds Have Wiped Out Tariff Revenue Since May</a></li>
+<li><a href="https://www.cnbc.com/2026/08/22/us-canada-trade-talks-collapse-ushering-in-wave-of-new-tariffs.html">U.S.-Canada talks fail; Carney says retaliatory tariffs start Sept. 8</a></li>
 
 </ul>
 </details>
 
-**Tags**: `#tariffs`, `#Supreme Court`, `#trade policy`, `#refunds`, `#corporate welfare`
+**Tags**: `#trade policy`, `#tariffs`, `#Canada`, `#U.S.-Canada relations`, `#international trade`
+
+---
+
+<a id="item-finance-news-2"></a>
+### [Treasury&\#x27;s plan to double bond buybacks lifts gold and bitcoin, weakens dollar](https://www.marketwatch.com/story/why-an-announcement-from-the-treasury-sparked-a-rally-in-gold-and-bitcoin-this-week-d9d5972b?mod=mw_rss_topstories) ⭐️ 8.0/10
+
+The Treasury Department announced it plans to double its bond buybacks, and MarketWatch reported that gold and bitcoin rallied while the U.S. dollar weakened after the announcement.
+
+rss · MarketWatch Top Stories · Aug 22, 13:00
+
+**「Background」** The Treasury Department&\#x27;s surprise announcement on Wednesday that it would at least double its planned purchases of longer-term U.S. government debt was meant to calm bond markets after a sustained sell-off.
+
+<details><summary>References</summary>
+<ul>
+<li><a href="https://apnews.com/article/gold-bitcoin-treasury-dollar-bessent-inflation-trump-be7df8c0eaa159e4149df8efc4000fc9">Gold and bitcoin went from chumps to champs very quickly this week | AP News</a></li>
+
+</ul>
+</details>
+
+**Tags**: `#Treasury`, `#Bond Buybacks`, `#Gold`, `#Bitcoin`, `#Dollar`
+
+---
+
+<a id="item-finance-news-3"></a>
+### [Sandbox Halts Base and BNB Chain Bridging After Exploit](https://www.coindesk.com/web3/2026/08/22/web3-gaming-network-sandbox-stops-base-and-bnb-chain-bridging-after-exploit) ⭐️ 6.0/10
+
+Web3 gaming network Sandbox has halted bridging on Base and BNB Chain following an exploit, disrupting cross-chain operations.
+
+rss · CoinDesk · Aug 22, 14:10
+
+**「Background」** The Sandbox is a blockchain gaming metaverse whose SAND cross-chain bridge lets users move tokens between networks; on August 22, it suspended SAND transfers on Base and BNB Smart Chain after an attacker exploited a vulnerability to mint unbacked SAND tokens on both networks.
+
+**「Impact」** Users of The Sandbox&\#x27;s cross-chain bridge on Base and BNB Smart Chain face a temporary halt while the team contains the exploit; the incident affected less than 0.01% of total SAND supply, with no user wallets hacked and SAND on Ethereum unaffected.
+
+<details><summary>References</summary>
+<ul>
+<li><a href="https://cryptobriefing.com/sandbox-halts-bridging-sand-exploit/">Sandbox halts Base and BNB Chain bridging after exploit mints billions ...</a></li>
+<li><a href="https://finance.yahoo.com/markets/crypto/articles/sandbox-contains-bridge-exploit-unbacked-082049821.html">The Sandbox Contains Bridge Exploit After Unbacked SAND Minted on Base ...</a></li>
+<li><a href="https://coinpedia.org/news/the-sandbox-sand-exploit-49b-in-new-tokens-flood-base/">The Sandbox SAND Exploit: $49B in New Tokens Flood Base</a></li>
+<li><a href="https://www.tradingview.com/news/coinpedia:452038594094b:0-the-sandbox-sand-exploit-49b-in-new-tokens-flood-base/">The Sandbox SAND Exploit: $49B in New Tokens Flood Base — TradingView News</a></li>
+<li><a href="https://cryptorank.io/news/feed/49fcb-the-sandbox-sand-exploit-49b-in-new-tokens-flood-base">The Sandbox SAND Exploit: $49B in New Tokens Flood Base | News | CryptoRank.io</a></li>
+
+</ul>
+</details>
+
+**Tags**: `#Web3`, `#gaming`, `#blockchain`, `#security exploit`, `#Sandbox`
+
+---
+
+<a id="item-finance-news-4"></a>
+### [Kalshi faces state bans and CFTC action over prediction markets](https://www.coindesk.com/news-analysis/2026/08/21/kalshi-off-limits-in-multiple-states-as-prediction-markets-cftc-team-up-for-battle) ⭐️ 6.0/10
+
+Kalshi has been barred in multiple states as state regulators and the U.S. Commodity Futures Trading Commission \(CFTC\) escalate a battle over prediction markets.
+
+rss · CoinDesk · Aug 22, 13:30
+
+**「Background」** Kalshi is a prediction-market platform where users bet on the outcomes of future events. State regulators in at least Washington and others have obtained court orders restricting Kalshi&\#x27;s operations, while the CFTC is also escalating action, part of a broader legal dispute over whether such markets are illegal gambling or regulated trading. A 2026 legal map lists 43 states as legal and 7 as disputed.
+
+**「Impact」** Users in the affected states will be unable to access Kalshi&\#x27;s markets, adding regulatory pressure on prediction-market platforms.
+
+<details><summary>References</summary>
+<ul>
+<li><a href="https://predictionmarkets.us/kalshi-state-restrictions-active-2026">Kalshi State Restrictions Tracker — Active Court Orders 2026</a></li>
+<li><a href="https://tech-insider.org/prediction-markets/prediction-markets-by-state/">Prediction Markets by State 2026: 50-State Legal Map</a></li>
+<li><a href="https://www.coindesk.com/news-analysis/2026/08/21/kalshi-off-limits-in-multiple-states-as-prediction-markets-cftc-team-up-for-battle">Kalshi off-limits in multiple states as prediction markets ...</a></li>
+
+</ul>
+</details>
+
+**Tags**: `#Kalshi`, `#prediction markets`, `#CFTC`, `#regulation`, `#state restrictions`
+
+---
+
+<a id="item-finance-news-5"></a>
+### [Zcash surges 48% to above $800 after Grayscale spot ETF filing](https://www.coindesk.com/markets/2026/08/22/zcash-tops-usd800-for-first-time-since-2016) ⭐️ 6.0/10
+
+Zcash’s price jumped roughly 48% to above $800, its highest level since 2016, after Grayscale’s spot ETF push fueled “next bitcoin” speculation, according to CoinDesk.
+
+rss · CoinDesk · Aug 22, 05:37
+
+**「Background」** Grayscale is advancing a filing to convert its Zcash Trust into a spot exchange-traded fund \(ETF\), a fund that would hold the actual Zcash tokens rather than derivatives, which analysts said brings the product closer to approval and has added to speculation that Zcash could be the &\#x27;next bitcoin.&\#x27;
+
+<details><summary>References</summary>
+<ul>
+<li><a href="https://cryptocapitalnews.com/2026/08/22/zcash-jumps-48-past-800-to-decade-high-as-grayscale-advances-spot-etf-bid/">Zcash Jumps 48% Past $800 on Grayscale Spot ETF Filing</a></li>
+<li><a href="https://cryptobriefing.com/zcash-surges-42-percent-past-800-grayscale-etf/">Zcash surges over 42% to surpass $800 as Grayscale files for ZEC ETF</a></li>
+<li><a href="https://www.coindesk.com/markets/2026/08/22/zcash-tops-usd800-for-first-time-since-2016">ZEC price news: Zcash zooms almost 50% to over $800 for first time ...</a></li>
+
+</ul>
+</details>
+
+**Tags**: `#Zcash`, `#Grayscale`, `#cryptocurrency`, `#ETF`, `#price surge`
 
 ---
