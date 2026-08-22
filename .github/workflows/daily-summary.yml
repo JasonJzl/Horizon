@@ -1,0 +1,57 @@
+name: Daily Horizon Summary
+
+on:
+  schedule:
+    # GitHub 定时任务使用 UTC。23:00 UTC = 次日 08:00 首尔时间（UTC+9）。
+    # GitHub 的调度经常延迟几分钟到几十分钟，属正常现象。
+    - cron: '0 23 * * *'
+  workflow_dispatch:      # 允许在 Actions 页面手动触发
+
+jobs:
+  daily-summary:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 提交 docs/ 与推送 gh-pages 分支需要
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.11.26"
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Prepare GitHub Actions config
+        run: cp data/config.github.json data/config.json
+
+      - name: Run Horizon
+        env:
+          # 只有 DEEPSEEK_API_KEY 是必须的，需要你在仓库 Secrets 里添加。
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          # GITHUB_TOKEN 由 Actions 自动提供，把 GitHub 源的限流从 60 次/小时提到 5000 次/小时。
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # 以下为可选，没配 Secret 时为空，对应功能自动不启用。
+          HORIZON_WEBHOOK_URL: ${{ secrets.HORIZON_WEBHOOK_URL }}
+        run: uv run horizon --hours 24 --log-level INFO
+
+      - name: Set current date as environment variable
+        run: echo "DATE=$(TZ=Asia/Seoul date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          keep_files: true  # 保留 gh-pages 分支上已有的历史日报
+          commit_message: "📝 Daily Summary: ${{ env.DATE }}"
+          publish_branch: gh-pages
+          enable_jekyll: true
