@@ -27,7 +27,7 @@
         "topic_dedup": false
       },
       "finance-news": {
-        "threshold": 6.5,
+        "threshold": 6,
         "topic_dedup": true
       }
     }
@@ -66,6 +66,29 @@
         "category": "quant",
         "profile": "tech-blog",
         "content_extractor": "trafilatura"
+      },
+      {
+        "name": "Robot Wealth",
+        "url": "https://robotwealth.com/feed/",
+        "enabled": true,
+        "category": "quant",
+        "profile": "tech-blog",
+        "content_extractor": "trafilatura"
+      },
+      {
+        "name": "QuantStart",
+        "url": "https://www.quantstart.com/articles/feed/",
+        "enabled": true,
+        "category": "quant",
+        "profile": "tech-blog",
+        "content_extractor": "trafilatura"
+      },
+      {
+        "name": "arXiv q-fin.TR (Trading & Microstructure)",
+        "url": "https://rss.arxiv.org/rss/q-fin.TR",
+        "enabled": true,
+        "category": "quant-research",
+        "profile": "tech-blog"
       },
       {
         "name": "CNBC Finance",
